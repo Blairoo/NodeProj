@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>BoraExhibition</title>
+    <meta charset="utf-8">
+    <meta name="description" content="exhibition exhibit showing">
+    <meta name="keywords" content="exhibition, exhibit, showing">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700,900|Oswald:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/magnific-popup.css">
+    <link rel="stylesheet" href="/css/jquery-ui.css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/owl.theme.default.min.css">
+
+    <link rel="stylesheet" href="/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap-grid.css">
+
+    <link rel="stylesheet" href="/fonts/flaticon/font/flaticon.css">
+
+    <link rel="stylesheet" href="/css/aos.css">
+    <link rel="stylesheet" href="/css/fancybox.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- 추가 css -->
+    <link rel="stylesheet" href="/css/cherry.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- font-awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="200">
+
+
+    <div class="site-wrap">
+
+        <div class="site-mobile-menu site-navbar-target">
+            <div class="site-mobile-menu-header">
+                <div class="site-mobile-menu-close mt-3">
+                    <span class="icon-close2 js-menu-toggle"></span>
+                </div>
+            </div>
+            <div class="site-mobile-menu-body"></div>
+        </div>
+
+        <header class="header-bar d-flex d-lg-block align-items-center site-navbar-target" data-aos="fade-right">
+            <div class="site-logo">
+                <a href="/main">Bora Exhibition</a>
+            </div>
+
+            <div class="d-inline-block d-lg-none ml-md-0 ml-auto py-3" style="position: relative; top: 3px;"><a href="#"
+                    class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3"></span></a></div>
+
+            <div class="main-menu">
+                <ul class="js-clone-nav">
+                    <li><a href="#section-detail" class="nav-link">Exhibition</a></li>
+                    <li><a href="#section-reviews" class="nav-link">Reviews</a></li>
+                    <li><a href="#section-leave" class="nav-link">Leave a Review</a></li>
+                </ul>
+            </div>
+        </header>
+
+        <main class="main-content">
+
+            <section id="section-home">
+                <div class="site-section-hero bg-image detail-bg" data-stellar-background-ratio="0.5">
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-md-7 text-center">
+                            <h1 class="text-white heading text-uppercase" data-aos="fade-up">{{exh.exhname}}
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="container-fluid">
+                <section class="site-section" id="section-detail">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-8">
+                                <nav aria-label="breadcrumb" style="margin-left: -30px;" data-aos="fade-up">
+                                    <ol class="breadcrumb" style="background-color: transparent;">
+                                        <li class="breadcrumb-item"><a href="/main">Home</a></li>
+                                        <li class="breadcrumb-item"><a href="/exhibition">Exhibition</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="/exhibition#section-{{class_exh}}">{{class_exh}}</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">{{exh.exhname}}</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row" data-aos="fade-up">
+                                    <div class="col-12 mb-3 justify-content-center">
+                                        <img style="width: 100%;"
+                                            src="http://49.50.164.62:8000/bora/media/{{exh.exhimage}}">
+                                    </div>
+                                    <div class="col-12 blog-content" style="width: 700px;" data-aos="fade-up">
+                                        <div class="heading">{{exh.exhname}}</div>
+                                        <p>{{exh.exhstart}} - {{exh.exhend}}</p>
+                                        <blockquote>
+                                            <div>{{exh.exhinfo|safe}}</div>
+                                            <a href="{{exh.exhurl}}" style="font-size: small; color: gray;">사이트 바로가기 <i
+                                                    class="fas fa-arrow-right"></i></a>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                                {% if class_exh == "Current" or class_exh == "Upcoming" %}
+                                <div class="col-1 offset-11" data-aos="fade-up">
+                                    <button id="reserveModalbtn" type="button" class="btn btn-primary btn-md text-white"
+                                        data-toggle="modal" data-target="#reserveModal"
+                                        style="float: right;">예매하기</button>
+                                </div>
+                                <div class="modal fade" id="reserveModal" tabindex="-1"
+                                    aria-labelledby="reserveModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal">
+                                        <div class="modal-content bg-dark">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="reserveModalLabel" style="color: white;">예매
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close" style="text-shadow: none;">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="/bora//ajaxreserve" method="POST">
+                                                    {% csrf_token %}
+                                                    <h5 style="color: white;">{{session_user}}님</h5>
+
+                                                    <div class="form-row justify-content-center">
+                                                        <div class="col-md-8 form-group">
+                                                            <label for="reserveExh" class="col-form-label">예매 전시</label>
+                                                            <input type="text" class="form-control" id="reserveExh"
+                                                                name="reserve_exh" required value="{{exh.exhname}}"
+                                                                readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row justify-content-center">
+                                                        <div class="col-md-8 form-group">
+                                                            <label for="reserveNum" class="col-form-label">예매 인원</label>
+                                                            <div class="input-group">
+                                                                <input type="number" class="form-control"
+                                                                    id="reserveNum" name="reserve_num" required
+                                                                    value="1" min="1" max="4">
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text">명</span>
+                                                                </div>
+                                                                <input type="hidden" class="form-control" id="reserveId"
+                                                                    name="reserve_id" required value="{{session_user}}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary"
+                                                    onclick="ajaxreserve();">예매 하기</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                {% if class_exh == "Current" or class_exh == "Past" %}
+                <section class="site-section" id="section-reviews">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-8 pt-5" style="border: 2px; border-color: thistle;" data-aos="fade-up">
+                                {% for rev in reviews %}
+                                {% if forloop.first is True %}
+                                <h3 class="mb-5">{{forloop.revcounter}} Reviews</h3>
+                                {% endif %}
+                                {% empty %}
+                                <h3 class="mb-5">0 Reviews</h3>
+                                <ul class="comment-list">
+                                    <li class="comment">
+                                        <div class="comment-body" style="width: 100%;">
+                                            <h4>작성된 리뷰가 없습니다.</h4>
+                                        </div>
+                                    </li>
+                                </ul>
+                                {% endfor %}
+                                <ul class="comment-list">
+                                    {% for r in reviews %}
+                                    <li class="comment">
+                                        <div class="comment-body" style="width:100%;" data-aos="fade-up">
+                                            <h4>{{r.reviewer}} 님</h4>
+                                            <!-- <div class="meta">{{r.writetime|date:'Y.m.d D H:i'}}</div> -->
+                                            <div class="meta">{{r.writetime}}</div>
+                                            <hr>
+                                            <p>{{r.exhreview}}</p>
+                                            <p class="float-right">
+                                                <form action="/bora//ajaxdelete_rev" method="POST"
+                                                    class="{{forloop.counter}}">
+                                                    <input type="hidden" class="delRevExh" value="{{r.exhibit}}">
+                                                    <input type="hidden" class="delRevId" value="{{r.reviewer}}">
+                                                    <!-- <input type="hidden" class="delReview" value="{{r.exhreview}}"> -->
+                                                </form>
+                                                <a class="reply float-right del_rev" id="{{forloop.counter}}"
+                                                    style="cursor: pointer;">Delete</a>
+                                                <a href="#section-leave" class="reply float-right"
+                                                    style="cursor: pointer;">Edit</a>
+                                            </p>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                <!-- END comment-list -->
+
+                            </div>
+                        </div>
+                </section>
+                <section class="site-section darken-bg" id="section-leave">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="comment-form-wrap pt-5 col-md-8">
+                                <h3 class="mb-5">Leave a Review</h3>
+                                <form action="/bora//ajaxleave_rev" method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <!-- id는 session에서 가져오기 -->
+                                        <label for="revid">ID</label>
+                                        <input type="text" class="form-control" id="revid" value="{{session_user}}"
+                                            readonly>
+                                        <input type="hidden" id="revexh" value="{{exh.exhname}}">
+                                        <input type="hidden" id="Urlrev" data-url="/detail' pk=exh.exhname %}" />
+                                    </div>
+
+                                    {% if this_rev %}
+                                    <div class="form-group">
+                                        <label for="review">Review</label>
+                                        {% for this in this_rev %}
+                                        <textarea id="review" maxlength="200" cols="10" rows="10" class="form-control"
+                                            style="height: 100px;">{{this.exhreview}}</textarea>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button" onclick="ajaxleave_rev();"
+                                            class="btn btn-primary btn-md text-white">Edit Review</button>
+                                    </div>
+                                    {% else %}
+                                    <div class="form-group">
+                                        <label for="review">Review</label>
+                                        <textarea id="review" maxlength="200" cols="10" rows="10" class="form-control"
+                                            style="height: 100px;"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button" onclick="ajaxleave_rev();"
+                                            class="btn btn-primary btn-md text-white">Post
+                                            Review</button>
+                                    </div>
+                                    {% endif %}
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                {% endif %}
+            </div>
+
+            <footer class="row justify-content-center">
+                <div class="col-md-12 text-center py-5">
+                    <p>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;<script>
+                            document.write(new Date().getFullYear());
+                        </script> All rights reserved | Made by <i class="fas fa-rocket"></i> BLAIROO
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </p>
+                    <p>
+                        <a href="https://github.com/Blairoo" target="blank"><i class="fab fa-github"></i> Blair's
+                            Github</a>
+                    </p>
+                </div>
+            </footer>
+        </main>
+    </div> <!-- .site-wrap -->
+    <!-- sweet alert -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {% load sweetify %}
+    {% sweetify %}
+    <script>
+        function ajaxreserve() {
+            console.log("ajaxreserve")
+            reserve_exh = $("#reserveExh").val();
+            reserve_id = $("#reserveId").val();
+            reserve_num = $("#reserveNum").val();
+            $.ajax({
+                url: "/bora/ajaxreserve",
+                data: {
+                    "reserve_exh": reserve_exh,
+                    "reserve_id": reserve_id,
+                    "reserve_num": reserve_num
+                },
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    if (data["check"] == "success") {
+                        $('#reserveModal').modal("hide");
+                        $('.modal-backdrop').remove();
+                        Swal.fire({
+                            title: '예매가 완료되었습니다.',
+                            text: "예매 내역을 확인하러 가시겠습니까?",
+                            icon: 'success',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: '예매 내역'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location =
+                                    "http://49.50.164.62:8000/bora/main#section-mypage"
+                            }
+                        });
+                    } else {
+                        $('#reserveModal').modal("hide");
+                        $('.modal-backdrop').remove();
+                        Swal.fire({
+                            title: '이미 예매한 상품입니다.',
+                            text: "예매 내역을 수정하러 가시겠습니까?",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: '수정 하기'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                Swal.fire({
+                                    text: '성공적으로 수정했습니다!',
+                                    icon: 'success',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: '확인'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location =
+                                            "http://49.50.164.62:8000/bora/main#section-mypage"
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+        }
+
+        function ajaxleave_rev() {
+            rev_exh = $("#revexh").val();
+            rev_id = $("#revid").val();
+            reviews = $("#review").val();
+            console.log(reviews)
+            const url = $("#Urlrev").attr("data-url");
+            $.ajax({
+                url: "/bora/ajaxleave_rev",
+                data: {
+                    "rev_exh": rev_exh,
+                    "rev_id": rev_id,
+                    "reviews": reviews
+                },
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    if (data["check"] == "success") {
+                        Swal.fire({
+                            title: '작성이 완료되었습니다.',
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: '확인'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = url
+                            }
+                        });
+                    } else if (data["check"] == "reserve_first") {
+                        Swal.fire({
+                            title: '예매한 전시회가 아닙니다.',
+                            text: "리뷰는 예매한 전시회에만 남길 수 있습니다.",
+                            icon: 'warning',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: '확인'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = url
+                            }
+                        })
+                    } else {
+                        Swal.fire({
+                            title: '이미 리뷰를 작성하였습니다.',
+                            text: "리뷰를 수정하겠습니까?",
+                            icon: 'question',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: '수정하기'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                Swal.fire({
+                                    text: '성공적으로 수정했습니다!',
+                                    icon: 'success',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: '확인'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location = url
+                                    }
+                                });
+                            }
+                        })
+                    }
+                }
+            });
+        }
+
+        $(".del_rev").click(function (e) {
+            // 버튼 누를 때 동작, 그 버튼의 id를 변수로 저장
+            var id = e.target.id;
+            console.log(id);
+            del_rev_exh = $(".delRevExh").val();
+            del_rev_id = $(".delRevId").val();
+            const url = $("#Urlrev").attr("data-url");
+            // 버튼의 id와 같은 이름의 class를 갖고 있는 form을 변수로 저장
+            const form = $("." + id);
+            console.log(form);
+            Swal.fire({
+                title: "리뷰를 삭제하겠습니까?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '삭제'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $(function () {
+                        $.ajax({
+                            url: "/bora/ajaxdelete_rev",
+                            data: {
+                                "del_rev_exh": del_rev_exh,
+                                "del_rev_id": del_rev_id
+                            },
+                            dataType: "json",
+                            success: function (data) {
+                                if (data["check"] == "success") {
+                                    Swal.fire({
+                                        text: '성공적으로 삭제했습니다!',
+                                        icon: 'success',
+                                        confirmButtonColor: '#3085d6',
+                                        confirmButtonText: '확인'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            window.location = url
+                                        }
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: "작성자만 삭제할 수 있습니다",
+                                        icon: 'warning',
+                                        confirmButtonColor: '#3085d6',
+                                        confirmButtonText: '확인'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            window.location = url
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/jquery-migrate-3.0.1.min.js"></script>
+    <script src="/js/jquery.easing.1.3.js"></script>
+    <script src="/js/jquery-ui.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/jquery.stellar.min.js"></script>
+    <script src="/js/jquery.countdown.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/bootstrap-datepicker.min.js"></script>
+    <script src="/js/aos.js"></script>
+
+    <!-- textFit heading 자동 글씨 크기 조정 -->
+    <script src="/js/textFit.js"></script>
+    <script type="text/javascript">
+        var mq = window.matchMedia("(max-width: 1200px)");
+        window.addEventListener('resize', function (event) {
+            // do stuff here
+            if (mq.matches) {
+                // window width is at less than 570px
+                textFit(document.getElementsByClassName('heading'), {
+                    detectMultiLine: true
+                });
+
+            } else {
+                textFit(document.getElementsByClassName('heading'), {
+                    detectMultiLine: false
+                });
+                // window width is greater than 570px
+
+            };
+        });
+        $(document).ready(function () {
+            if (mq.matches) {
+                // window width is at less than 570px
+                textFit(document.getElementsByClassName('heading'));
+
+            } else {
+                textFit(document.getElementsByClassName('heading'), {
+                    detectMultiLine: false
+                });
+                // window width is greater than 570px
+
+            };
+        });
+    </script>
+
+
+    <script src="/js/jquery.fancybox.min.js"></script>
+
+    <script src="/js/main.js"></script>
+    <!-- 추가 js -->
+    <script src="/js/cherry.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,137 @@
+body::-webkit-scrollbar {
+    width: 0 !important;
+    display: none;
+}
+
+@media (max-width:800px) {
+    body::-webkit-scrollbar {
+        width: 0 !important;
+        display: none;
+    }
+}
+
+/* index.css */
+#section-home>.index-bg{
+    background-image: url('/images/exhibitionmain.jpg');
+    background-position: 50% 0px;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+#section-home> .list-bg{
+    background-image: url('/images/exhibitionmain5.jpg');
+    background-position: 50% 0px;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+#section-home> .detail-bg{
+    background-image: url('/images/exhibitionmain3.jpg');
+    background-position: 50% 0px;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+/* eyes css */
+.eyes {
+    /* position: absolute; */
+    cursor: pointer;
+}
+
+.card {
+    background-color: #8d8d8d3f;
+}
+
+.card-header {
+    background-color: transparent;
+}
+.card-body {
+    height: 440px;
+    overflow: scroll;
+}
+/* timeline */
+ul.timeline {
+    list-style-type: none;
+    position: relative;
+}
+
+ul.timeline:before {
+    content: ' ';
+    background: #d4d9df;
+    display: inline-block;
+    position: absolute;
+    left: 29px;
+    width: 2px;
+    height: 100%;
+    z-index: 400;
+}
+
+ul.timeline>li {
+    margin: 20px 0;
+    padding-left: 20px;
+}
+
+ul.timeline>li:before {
+    content: ' ';
+    background: white;
+    display: inline-block;
+    position: absolute;
+    border-radius: 50%;
+    border: 3px solid #df0e62;
+    left: 20px;
+    width: 20px;
+    height: 20px;
+    z-index: 400;
+}
+
+input:read-only {
+    background-color: transparent !important;
+}
+
+.exhdate {
+    color: #df0e62 !important;
+}
+
+footer> div> p> a{
+    color: gray;
+}
+footer> div> p> a:hover{
+    color: darkgray;
+}
+/* detail, list.css */
+
+input:read-only {
+    background-color: transparent !important;
+}
+
+.input-group-append span {
+    background-color: transparent !important;
+    color: darkgray;
+    border: transparent;
+}
+
+.col-form-label {
+    color: darkgray;
+}
+
+.reply {
+    cursor: pointer;
+    margin: 1px;
+}
+
+ol>li>a {
+    color: gray;
+}
+
+ol>li>a:hover {
+    color: darkgray;
+}
+
+ol>li:last-child {
+    color: #df0e62 !important;
+}
+
+.heading a {
+    color: white;
+}

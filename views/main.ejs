@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>BoraExhibition</title>
+    <meta charset="utf-8">
+    <meta name="description" content="exhibition exhibit showing">
+    <meta name="keywords" content="exhibition, exhibit, showing">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/images/favicon.ico"/>
+
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700,900|Oswald:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/magnific-popup.css">
+    <link rel="stylesheet" href="/css/jquery-ui.css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/owl.theme.default.min.css">
+
+    <link rel="stylesheet" href="/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap-grid.css">
+
+    <link rel="stylesheet" href="/fonts/flaticon/font/flaticon.css">
+
+    <link rel="stylesheet" href="/css/aos.css">
+    <link rel="stylesheet" href="/css/fancybox.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- 추가 css -->
+    <link rel="stylesheet" href="/css/cherry.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- font-awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script>
+        // function ajaxlogout() {
+        //     const url = $("#Urlhome").attr("data-url");
+        //     // session_user = {{session_user}};
+        //     // console.log({{session_user}})
+        //     $.ajax({
+        //         url: "ajaxlogout",
+        //         dataType: "/json",
+        //         success: function () {
+        //             console.log(data["session_user"]);
+        //             location.href = url
+        //             return;
+        //         }
+        //     });
+        // }
+    </script>
+</head>
+
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="200">
+    <div class="site-wrap">
+        <div class="site-mobile-menu site-navbar-target">
+            <div class="site-mobile-menu-header">
+                <div class="site-mobile-menu-close mt-3">
+                    <span class="icon-close2 js-menu-toggle"></span>
+                </div>
+            </div>
+            <div class="site-mobile-menu-body"></div>
+        </div>
+
+        <header class="header-bar d-flex d-lg-block align-items-center site-navbar-target" data-aos="fade-right">
+            <div class="site-logo">
+                <a href="/main">Bora Exhibition</a>
+            </div>
+            <div>
+            </div>
+
+            <div class="d-inline-block d-lg-none ml-md-0 ml-auto py-3" style="position: relative; top: 3px;"><a href="#"
+                    class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3"></span></a></div>
+
+            <div class="main-menu">
+                <ul class="js-clone-nav">
+                    <li><a href="#section-home" class="nav-link">Home</a></li>
+                    <li><a href="#section-exhibition" class="nav-link">Exhibition</a></li>
+                    {% if session_user %}
+                    <li><a href="#section-mypage" class="nav-link">MyPage</a></li>
+                    {% else %}
+                    <li><a href="#section-login" class="nav-link">Login</a></li>
+                    <li><a href="#section-join" class="nav-link">Join</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </header>
+
+        <main class="main-content">
+
+            <section id="section-home">
+                <div class="site-section-hero bg-image index-bg" data-stellar-background-ratio="0.5">
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-md-7 text-center">
+                            <h1 class="text-white heading text-uppercase" data-aos="fade-up">Welcome</h1>
+                            <p class="lead text-white mb-5" data-aos="fade-up" data-aos-delay="100">
+                                For your choice without regrets.<br>
+                                Check the review and make a reservation.
+                            </p>
+                            {% if session_user %}
+                            <p data-aos="fade-up" data-aos-delay="100"><a href="/exhibition"
+                                    class="btn btn-primary btn-md smoothscroll">Go look around</a></p>
+                            {% else %}
+                            <p data-aos="fade-up" data-aos-delay="100"><a href="#section-join"
+                                    class="btn btn-primary btn-md smoothscroll">Join Me</a></p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="container-fluid">
+                <section class="site-section" id="section-exhibition">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-8">
+                                <div class="row justify-content-between">
+                                    <div>
+                                        <h2 class="heading text-uppercase text-white" data-aos="fade-up">Exhibition</h2>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <a href="/exhibition" data-aos="fade-up"><i class="fas fa-caret-right"></i>
+                                            more</a>
+                                    </div>
+
+                                    {% for p in current %}
+                                    <div class="col-md-12 mb-4" data-aos="fade-up">
+                                        <div class="d-md-flex d-block blog-entry align-items-start">
+                                            <div class="mr-0 mr-md-5 mb-3 img-wrap"><a
+                                                    href="/detail' pk=p.exhname %}"><img
+                                                        src='media/{{ p.exhimage }}' alt="Image"
+                                                        class="img-fluid"></img></div>
+                                            <div class="">
+                                                <h2 class="mt-0 mb-2">
+                                                    <a href="/detail' pk=p.exhname %}">
+                                                        {{p.exhname}}
+                                                    </a>
+                                                </h2>
+                                                <div class="meta mb-3">
+                                                    <a class="mr-2">
+                                                        전시 기간
+                                                    </a>
+                                                    <a class="exhdate">{{p.exhstart}} - {{p.exhend}}</a>
+                                                </div>
+                                                <p>{{p.exhinfo}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {% if session_user %}
+                <section class="site-section darken-bg" id="section-mypage">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            {% for message in messages %}
+                            <div class="alert {{ message.tags }} alert-auto-dismissible alert-dismissible notification-container text-center col-md-8"
+                                role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                {{ message }}
+                            </div>
+                            {% endfor %}
+
+                            <div class="col-md-8">
+                                <h2 class="heading text-uppercase text-white">MyPage</h2>
+                                <div class="d-flex justify-content-between">
+                                    <div class="d-flex justify-content-start">
+                                        <h4 class="session_user">{{session_user}}</h4>
+                                        <h4>님</h4>
+                                    </div>
+                                    <a href="/logout" id="logout"
+                                        class="btn btn-sm btn-secondary text-white">Logout</a>
+                                </div>
+                                <hr color="dimgray">
+
+                                <div class="row row-cols-1 row-cols-md-1 text-white">
+                                    <div class="col-12 col-md-6">
+                                        <div class="card h-100 bg-dark" id="cart">
+                                            <div class="card-header">
+                                                예매 내역
+                                            </div>
+                                            {% if reserve %}
+                                            <div class="card-body">
+                                                <ul class="timeline">
+                                                    <input type="hidden" id="Urlmypage"
+                                                        data-url="/main#section-mypage" />
+                                                    {% for r in reserve %}
+                                                    <li style="font-size: small;">
+                                                        <form action="/delete_res" method="POST"
+                                                            class="{{ forloop.counter }}">
+                                                            {% csrf_token %}
+                                                            <input type="hidden" value="{{r.what}}" name="delwhat">
+                                                            <input type="hidden" value="{{r.who}}" name="delwho">
+                                                            <input type="hidden" value="{{r.count}}" name="delcount">
+                                                            <button type="button"
+                                                                class="fas fa-times btn btn-dark btn-sm del_res float-right"
+                                                                id="{{forloop.counter}}"></button>
+                                                        </form>
+                                                        <p>{{r.what}} - {{r.count}}매</p>
+                                                        <p>예매일 {{r.when}}</p>
+                                                    </li>
+                                                    <hr>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                            {% else %}
+                                            <div class="card-body m-2">예매 내역이 없습니다.</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="card h-100 bg-dark" id="editinfo">
+                                            <div class="card-header">
+                                                회원 정보 수정
+                                            </div>
+                                            <div class="card-body">
+                                                {%for info in logged_user %}
+                                                <form action="/edit" method="POST">
+                                                    {% csrf_token %}
+                                                    <div class="row form-group">
+                                                        <div class="col-md-12">
+                                                            <label class="text-white" for="editname">Name</label>
+                                                            <input type="text" id="editname" class="form-control"
+                                                                name="edit_name" required pattern="[가-힣]{2,}"
+                                                                value="{{info.username}}" readonly>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row form-group">
+                                                        <div class="col-md-12">
+                                                            <label class="text-white" for="editid">ID</label>
+                                                            <input type="text" id="editid" class="form-control fail"
+                                                                name="edit_id" required pattern="[\w]{3,}"
+                                                                value="{{info.userid}}" readonly>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row form-group">
+                                                        <div class="col-md-12 inputpw">
+                                                            <label class="text-white"
+                                                                for="editpw">Password</label><small
+                                                                class="idcheckmsg float-right"></small>
+                                                            <div class="input-group-prepend">
+                                                                <input type="password" id="editpw"
+                                                                    aria-describedby="#editpwhelp"
+                                                                    class="form-control joinpw" name="edit_pw" required
+                                                                    pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$"
+                                                                    value="{{info.userpw}}" readonly>
+                                                                <div class="input-group-append eyes d-none">
+                                                                    <button type="button"
+                                                                        class="btn btn-outline-secondary"><i
+                                                                            class="fas fa-eye"></i></button>
+                                                                </div>
+                                                            </div>
+                                                            <small class="text-muted" id="editpwhelp">8자 이상, 영문자, 숫자,
+                                                                특수기호(-_=+*^!~)를
+                                                                포함하여 주세요</small>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="row form-group">
+                                                        <div class="col-md-12">
+                                                            <label class="text-white" for="editphone">Phone</label>
+                                                            <input type="text" id="editphone" class="form-control fail"
+                                                                name="edit_phone" required maxlength="11" minlength="11"
+                                                                value="{{info.userphone}}" readonly>
+                                                        </div>
+                                                    </div>
+                                                    {% endfor %}
+                                                    <!-- edit button click하면 input창 readonly 해제 -->
+                                                    <script>
+                                                        $(function () {
+                                                            $('#goedit').on('click', function () {
+                                                                $(this).addClass('d-none').siblings(
+                                                                        '#edit')
+                                                                    .removeClass('d-none')
+                                                                    .parents().find(
+                                                                        '#editpw, #editphone').attr(
+                                                                        'readonly', false).siblings(
+                                                                        '.eyes')
+                                                                    .removeClass('d-none');
+                                                                $("#leave").removeClass("d-none");
+                                                            });
+                                                        });
+                                                    </script>
+                                            </div>
+                                            <div class="card-footer row">
+                                                <a href="#editinfo" id="goedit"
+                                                    class="btn btn-primary btn-md text-white">Edit</a>
+                                                <button id="edit" type="submit"
+                                                    class="btn btn-primary btn-md text-white d-none">Edit</button>
+                                                </form>
+                                                <div class="col d-flex justify-content-end d-none">
+                                                    <button id="leave" type="button"
+                                                        class="btn btn-secondary text-white btn-md d-none"
+                                                        data-toggle="modal" data-target="#leavemodal">탈퇴</button>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="leavemodal" tabindex="-1"
+                                                aria-labelledby="LeaveModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content bg-dark">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title text-white" id="LeaveModalLabel">회원
+                                                                탈퇴
+                                                            </h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close" style="text-shadow: none;">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form action="/withdrawal" method="POST">
+                                                                {% csrf_token %}
+                                                                <div class="row form-group">
+                                                                    <div class="col-md-12">
+                                                                        <label class="text-white"
+                                                                            for="leaveid">ID</label>
+                                                                        <input type="text" id="leaveid"
+                                                                            class="form-control fail" name="leave_id"
+                                                                            required pattern="[\w]{3,}">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row form-group">
+                                                                    <div class="col-md-12 inputpw">
+                                                                        <label class="text-white"
+                                                                            for="leavepw">Password</label>
+                                                                        <small class="idcheckmsg float-right"></small>
+                                                                        <div class="input-group-prepend">
+                                                                            <input type="password" id="leavepw"
+                                                                                class="form-control joinpw"
+                                                                                aria-describedby="#wdpwhelp"
+                                                                                name="leave_pw" required
+                                                                                pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$">
+                                                                            <div class="input-group-append eyes">
+                                                                                <button type="button"
+                                                                                    class="btn btn-outline-secondary"><i
+                                                                                        class="fas fa-eye"></i></button>
+                                                                            </div>
+                                                                        </div>
+                                                                        <small class="text-muted" id="wdpwhelp">8자 이상,
+                                                                            영문자, 숫자,
+                                                                            특수기호(-_=+*^!~)를
+                                                                            포함하여 주세요</small>
+                                                                    </div>
+                                                                </div>
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary">탈퇴 하기</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                {% else %}
+                <section class="site-section darken-bg" id="section-login">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-8">
+
+                                <h2 class="heading text-uppercase text-white">Login</h2>
+                                <div>
+                                    <input type="hidden" id="Urlhome" data-url="/main" />
+                                    <small class="ajaxmsg"></small>
+                                </div>
+                                <form action="/ajaxlogin" method="POST">
+                                    {% csrf_token %}
+
+                                    <div class="row form-group">
+                                        <div class="col-md-12">
+                                            <label class="text-white" for="loginid">ID</label>
+                                            <input type="text" id="loginid" class="form-control" name="login_id"
+                                                required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <div class="col-md-12 inputpw">
+                                            <label class="text-white" for="loginpw">Password</label>
+                                            <div class="input-group-prepend">
+                                                <input type="password" id="loginpw" class="form-control joinpw"
+                                                    name="login_pw" required>
+                                                <div class="input-group-append eyes">
+                                                    <button type="button" class="btn btn-outline-secondary"><i
+                                                            class="fas fa-eye"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-12">
+                                            <button type="button" id="login" class="btn btn-primary btn-md text-white"
+                                                onclick="ajaxlogin();">Login</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="site-section darken-bg" id="section-join">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-8">
+                                <h2 class="text-white mb-5 heading">Join</h2>
+
+                                <form action="/signup" method="POST">
+                                    {% csrf_token %}
+
+                                    <div class="row form-group">
+                                        <div class="col-md-12">
+                                            <label class="text-white" for="inputname">Name</label>
+                                            <input type="text" id="inputname" class="form-control" name="user_name"
+                                                required pattern="[가-힣]{2,}">
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <div class="col-md-12">
+                                            <label class="text-white" for="inputid">ID</label><small
+                                                class="idcheckmsg float-right"></small>
+                                            <div class="input-group-prepend">
+                                                <input type="text" id="inputid" class="form-control fail" name="user_id"
+                                                    required pattern="[\w]{3,}">
+                                                <div class="input-group-append">
+                                                    <button type="button" id="checkbutton"
+                                                        class="btn btn-outline-secondary" style="width: max-content;"
+                                                        onfocusout="" onclick="ckid();">중복확인</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <div class="col-md-6 mb-3 mb-md-0 inputpw">
+                                            <label class="text-white" for="inputpw">Password</label>
+                                            <div class="input-group-prepend">
+                                                <input type="password" id="inputpw" class="form-control joinpw"
+                                                    name="user_pw" required
+                                                    pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$">
+                                                <div class="input-group-append eyes">
+                                                    <button type="button" class="btn btn-outline-secondary"><i
+                                                            class="fas fa-eye"></i></button>
+                                                </div>
+                                            </div>
+                                            <small class="text-muted">8자 이상, 영문자, 숫자, 특수기호(-_=+*^!~)를 포함하여 주세요</small>
+                                        </div>
+                                        <div class="col-md-6 inputpw">
+                                            <label class="text-white" for="pwcheck">Password Check</label>
+                                            <div class="input-group-prepend">
+                                                <input type="password" id="pwcheck" class="form-control joinpw"
+                                                    name="pw_check" required
+                                                    pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$">
+                                                <div class="input-group-append eyes">
+                                                    <button type="button" class="btn btn-outline-secondary"><i
+                                                            class="fas fa-eye"></i></button>
+                                                </div>
+                                            </div>
+                                            <small class="text-muted pwcheckmsg d-none" style="color: #6461e1;">비밀번호가
+                                                일치합니다</small>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-12">
+                                            <label class="text-white" for="inputnum">Phone</label>
+                                            <input type="text" maxlength="11" minlength="11" id="inputnum"
+                                                class="form-control" name="user_phone" required>
+                                        </div>
+                                        <small class="text-muted">- 없이 숫자만 입력해주세요</small>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-12">
+                                            <button type="submit" id="joinbtn"
+                                                class="btn btn-primary btn-md text-white">SignUp</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                </section>
+                {% endif %}
+                <footer class="row justify-content-center">
+                    <div class="col-md-12 text-center py-5">
+                        <p>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;<script>
+                                document.write(new Date().getFullYear());
+                            </script> All rights reserved | Made by <i class="fas fa-rocket"></i> BLAIROO
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </p>
+                        <p>
+                            <a href="https://github.com/Blairoo" target="blank"><i class="fab fa-github"></i> Blair's
+                                Github</a>
+                        </p>
+                    </div>
+                </footer>
+            </div>
+        </main>
+
+    </div> <!-- .site-wrap -->
+    <!-- sweet alert -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {% load sweetify %}
+    {% sweetify %}
+    <script>
+        $(".del_res").click(function (e) {
+            // 버튼 누를 때 동작, 그 버튼의 id를 변수로 저장
+            var id = e.target.id;
+            console.log(id);
+            $(function () {
+                // 버튼의 id와 같은 이름의 class를 갖고 있는 form을 변수로 저장
+                const form = $("." + id);
+                console.log(form);
+                Swal.fire({
+                    title: "예매를 취소하겠습니까?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '예매 취소'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            text: '성공적으로 취소했습니다!',
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: '확인'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                form.submit();
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/jquery-migrate-3.0.1.min.js"></script>
+    <script src="/js/jquery.easing.1.3.js"></script>
+    <script src="/js/jquery-ui.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/jquery.stellar.min.js"></script>
+    <script src="/js/jquery.countdown.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/bootstrap-datepicker.min.js"></script>
+    <script src="/js/aos.js"></script>
+
+    <!-- textFit heading 자동 글씨 크기 조정 -->
+    <script src="/js/textFit.js"></script>
+    <script type="text/javascript">
+        var mq = window.matchMedia("(max-width: 1200px)");
+        window.addEventListener('resize', function (event) {
+            // do stuff here
+            if (mq.matches) {
+                // window width is at less than 570px
+                textFit(document.getElementsByClassName('heading'), {
+                    detectMultiLine: true
+                });
+
+            } else {
+                textFit(document.getElementsByClassName('heading'), {
+                    detectMultiLine: false
+                });
+                // window width is greater than 570px
+
+            };
+        });
+        $(document).ready(function () {
+            if (mq.matches) {
+                // window width is at less than 570px
+                textFit(document.getElementsByClassName('heading'), {
+                    detectMultiLine: true
+                });
+
+            } else {
+                textFit(document.getElementsByClassName('heading'), {
+                    detectMultiLine: false
+                });
+                // window width is greater than 570px
+
+            };
+        });
+    </script>
+
+    <script src="/js/jquery.fancybox.min.js"></script>
+
+    <script src="/js/main.js"></script>
+    <!-- 추가 js -->
+    <script src="/js/cherry.js"></script>
+
+</body>
+
+</html>

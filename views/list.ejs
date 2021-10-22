@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>BoraExhibition</title>
+    <meta charset="utf-8">
+    <meta name="description" content="exhibition exhibit showing">
+    <meta name="keywords" content="exhibition, exhibit, showing">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700,900|Oswald:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/magnific-popup.css">
+    <link rel="stylesheet" href="/css/jquery-ui.css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/owl.theme.default.min.css">
+
+    <link rel="stylesheet" href="/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap-grid.css">
+
+    <link rel="stylesheet" href="/fonts/flaticon/font/flaticon.css">
+
+    <link rel="stylesheet" href="/css/aos.css">
+    <link rel="stylesheet" href="/css/fancybox.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- 추가 css -->
+    <link rel="stylesheet" href="/css/cherry.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- font-awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="200">
+
+
+    <div class="site-wrap">
+
+        <div class="site-mobile-menu site-navbar-target">
+            <div class="site-mobile-menu-header">
+                <div class="site-mobile-menu-close mt-3">
+                    <span class="icon-close2 js-menu-toggle"></span>
+                </div>
+            </div>
+            <div class="site-mobile-menu-body"></div>
+        </div>
+
+        <header class="header-bar d-flex d-lg-block align-items-center site-navbar-target" data-aos="fade-right">
+            <div class="site-logo">
+                <a href="/main">Bora Exhibition</a>
+            </div>
+
+            <div class="d-inline-block d-lg-none ml-md-0 ml-auto py-3" style="position: relative; top: 3px;"><a href="#"
+                    class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3"></span></a></div>
+
+            <div class="main-menu">
+                <ul class="js-clone-nav">
+                    <li><a href="#section-Past" class="nav-link navp">Past</a></li>
+                    <li><a href="#section-Current" class="nav-link navc">Current</a></li>
+                    <li><a href="#section-Upcoming" class="nav-link navu">Upcoming</a></li>
+                </ul>
+            </div>
+        </header>
+        <main class="main-content">
+            <section id="section-home">
+                <div class="site-section-hero bg-image list-bg" data-stellar-background-ratio="0.5">
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-md-7 text-center">
+                            <h1 class="text-white heading text-uppercase" data-aos="fade-up">You can see all our
+                                Exhibitions
+                            </h1>
+                            <script>
+                                $(document).ready(function () {
+                                    var date = new Date();
+                                    var year = date.getFullYear();
+                                    var month = ("0" + (1 + date.getMonth())).slice(-2);
+                                    var day = ("0" + date.getDate()).slice(-2);
+                                    const WEEKDAY = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+                                    let week = WEEKDAY[date.getDay()];
+                                    $(".date").text(year + " " + month + " " + day + " " + week);
+                                });
+                            </script>
+                            <p class="lead text-white mb-5 date" data-aos="fade-up" data-aos-delay="100"></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="container-fluid">
+                <section class="site-section" id="section-Past">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-8">
+                                <nav aria-label="breadcrumb" style="margin-left: -30px;" data-aos="fade-up">
+                                    <ol class="breadcrumb" style="background-color: transparent;">
+                                        <li class="breadcrumb-item"><a href="/main">Home</a></li>
+                                        <li class="breadcrumb-item"><a href="/exhibition">Exhibition</a></li>
+                                        <li class="breadcrumb-item">Past</li>
+                                    </ol>
+                                </nav>
+                                <div class="row">
+                                    <div>
+                                        <h2 class="heading text-uppercase text-white" data-aos="fade-up">Past</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            {% for c in past %}
+                            <div class="col-md-8">
+                                <div class="row" data-aos="fade-up">
+                                    <div class="col-12 mb-3 mt-5 justify-content-center">
+                                        <a href="/detail' pk=c.exhname %}"><img style="width: 100%;"
+                                                src="media/{{c.exhimage}}"></a>
+                                    </div>
+                                    <div class="col-12 blog-content mb-4" style="width: 700px;" data-aos="fade-up">
+                                        <a class="heading" style="color: white;" href="/detail' pk=c.exhname %}">
+                                            {{c.exhname}}
+                                        </a>
+                                        <p>{{c.exhstart}} - {{c.exhend}}</p>
+                                        <blockquote>
+                                            <div>{{c.exhinfo}}</div>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                                <hr style="height: 50px; width: 2px; border-left: 3px dashed #1e1d1c;"
+                                    data-aos="fade-up">
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </section>
+                <section class="site-section" id="section-Current">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-8">
+                                <nav aria-label="breadcrumb" style="margin-left: -30px;" data-aos="fade-up">
+                                    <ol class="breadcrumb" style="background-color: transparent;">
+                                        <li class="breadcrumb-item"><a href="/main">Home</a></li>
+                                        <li class="breadcrumb-item"><a href="/exhibition">Exhibition</a></li>
+                                        <li class="breadcrumb-item">Current</li>
+                                    </ol>
+                                </nav>
+                                <div class="row">
+                                    <div>
+                                        <h2 class="heading text-uppercase text-white" data-aos="fade-up">Current</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            {% for c in current %}
+                            <div class="col-md-8">
+                                <div class="row" data-aos="fade-up">
+                                    <div class="col-12 mb-3 mt-5 justify-content-center">
+                                        <a href="/detail' pk=c.exhname %}"><img style="width: 100%;"
+                                                src="media/{{c.exhimage}}"></a>
+                                    </div>
+                                    <div class="col-12 blog-content mb-4" style="width: 700px;" data-aos="fade-up">
+                                        <a class="heading" style="color: white;" href="/detail' pk=c.exhname %}">
+                                            {{c.exhname}}
+                                        </a>
+                                        <p>{{c.exhstart}} - {{c.exhend}}</p>
+                                        <blockquote>
+                                            <div>{{c.exhinfo}}</div>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                                <hr style="height: 50px; width: 2px; border-left: 3px dashed #1e1d1c;"
+                                    data-aos="fade-up">
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </section>
+                <section class="site-section" id="section-Upcoming">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-8">
+                                <nav aria-label="breadcrumb" style="margin-left: -30px;" data-aos="fade-up">
+                                    <ol class="breadcrumb" style="background-color: transparent;">
+                                        <li class="breadcrumb-item"><a href="/main">Home</a></li>
+                                        <li class="breadcrumb-item"><a href="/exhibition">Exhibition</a></li>
+                                        <li class="breadcrumb-item"><a>Upcoming</a></li>
+                                    </ol>
+                                </nav>
+                                <div class="row">
+                                    <div>
+                                        <h2 class="heading text-uppercase text-white" data-aos="fade-up">Upcoming</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            {% for c in upcoming %}
+                            <div class="col-md-8">
+                                <div class="row" data-aos="fade-up">
+                                    <div class="col-12 mb-3 mt-5 justify-content-center">
+                                        <a href="/detail' pk=c.exhname %}"><img style="width: 100%;"
+                                                src="media/{{c.exhimage}}"></a>
+                                    </div>
+                                    <div class="col-12 blog-content mb-4" style="width: 700px;" data-aos="fade-up">
+                                        <a class="heading" style="color: white;" href="/detail' pk=c.exhname %}">
+                                            {{c.exhname}}
+                                        </a>
+                                        <p>{{c.exhstart}} - {{c.exhend}}</p>
+                                        <blockquote>
+                                            <div>{{c.exhinfo}}</div>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                                <hr style="height: 50px; width: 2px; border-left: 3px dashed #1e1d1c;"
+                                    data-aos="fade-up">
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <footer class="row justify-content-center">
+                <div class="col-md-12 text-center py-5">
+                    <p>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;<script>
+                            document.write(new Date().getFullYear());
+                        </script> All rights reserved | Made by <i class="fas fa-rocket"></i> BLAIROO
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </p>
+                    <p>
+                        <a href="https://github.com/Blairoo" target="blank"><i class="fab fa-github"></i> Blair's
+                            Github</a>
+                    </p>
+                </div>
+            </footer>
+    </div>
+    </main>
+
+    </div> <!-- .site-wrap -->
+    <!-- sweet alert -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {% load sweetify %}
+    {% sweetify %}
+
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/jquery-migrate-3.0.1.min.js"></script>
+    <script src="/js/jquery.easing.1.3.js"></script>
+    <script src="/js/jquery-ui.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/jquery.stellar.min.js"></script>
+    <script src="/js/jquery.countdown.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/bootstrap-datepicker.min.js"></script>
+    <script src="/js/aos.js"></script>
+
+    <!-- textFit heading 자동 글씨 크기 조정 -->
+    <script src="/js/textFit.js"></script>
+    <script type="text/javascript">
+        var mq = window.matchMedia("(max-width: 1200px)");
+        window.addEventListener('resize', function (event) {
+            // do stuff here
+            if (mq.matches) {
+                // window width is at less than 570px
+                textFit(document.getElementsByClassName('heading'), {
+                    detectMultiLine: true
+                });
+
+            } else {
+                textFit(document.getElementsByClassName('heading'), {
+                    detectMultiLine: false
+                });
+                // window width is greater than 570px
+
+            };
+        });
+        $(document).ready(function () {
+            if (mq.matches) {
+                // window width is at less than 570px
+                textFit(document.getElementsByClassName('heading'), {
+                    detectMultiLine: true
+                });
+
+            } else {
+                textFit(document.getElementsByClassName('heading'), {
+                    detectMultiLine: false
+                });
+                // window width is greater than 570px
+
+            };
+        });
+    </script>
+
+
+    <script src="/js/jquery.fancybox.min.js"></script>
+
+    <script src="/js/main.js"></script>
+    <!-- 추가 js -->
+    <script src="/js/cherry.js"></script>
+
+</body>
+
+</html>
