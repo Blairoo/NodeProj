@@ -7,6 +7,10 @@ app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 // nodejs의 static
 app.use(express.static(__dirname + "/public"));
+// moment-timezone
+var moment = require('moment');
+require('moment-timezone'); 
+moment.tz.setDefault("Asia/Seoul"); 
 
 const conn = mysql.createConnection({
 	user: 'root',
@@ -22,11 +26,15 @@ app.get( '/test', ( req, res ) => {
 	});
 });
 app.get('/main', (req, res) => {
+    console.log(`${moment().format("YYYY-MM-DD")}`);
 	res.render('main')
 })
 app.get('/exhibition', (req, res) => {
 	res.render('list')
 })
+// app.get('/exhibition', (req, res) => {
+// 	res.render('list')
+// })
 app.listen( 8000, function () {
 	// console.log(conn.state) // db에 접속이 되었는지 확인 -> 연결 확인이 아닌거 같음 계속 disconnected 뜸
 	conn.connect((err) => {
