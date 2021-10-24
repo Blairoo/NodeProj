@@ -25,13 +25,29 @@ app.get( '/test', ( req, res ) => {
 		res.render( 'test', { param1: results } );
 	});
 });
+
 app.get('/main', (req, res) => {
-    console.log(`${moment().format("YYYY-MM-DD")}`);
-	res.render('main')
-})
+    res.render('main')
+});
+
+app.post('/main', (req, res) => {
+    /* insert 예제 */
+    const sql = `INSERT INTO User(username, userid, userpw, userphone, registered) VALUES('탐', 'tam', 'sae1299**', '01088889999', '${moment().format("YYYY-MM-DD")}');`;
+    conn.query(sql, function(err){
+        if(err){
+            console.log('failed!:' + err);
+        }
+        else{
+            console.log("data inserted!");
+        }
+    });
+    res.render('main')
+});
+
 app.get('/exhibition', (req, res) => {
 	res.render('list')
-})
+});
+
 // app.get('/exhibition', (req, res) => {
 // 	res.render('list')
 // })
@@ -43,4 +59,12 @@ app.listen( 8000, function () {
 	});
 	// if (conn) console.log("Listening on *:8000");
 	// else console.log("DB connection error");
+
+	/* select 예제 */
+	// const sql = "SELECT * FROM 테이블명 WHERE 컬럼1 = 값;";
+	// conn.query(sql, function(err, results){
+	// 	for(var i = 0; i < results.length; i++){
+	// 		console.log(results[i]["컬럼"]);
+	// 	}
+	// });
 });
