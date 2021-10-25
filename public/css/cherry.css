@@ -54,6 +54,7 @@ body::-webkit-scrollbar {
 ul.timeline {
     list-style-type: none;
     position: relative;
+    z-index:0;
 }
 
 ul.timeline:before {

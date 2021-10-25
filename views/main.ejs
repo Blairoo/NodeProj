@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- favicon -->
-    <link rel="shortcut icon" href="/images/favicon.ico"/>
+    <link rel="shortcut icon" href="/images/favicon.ico" />
 
     <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700,900|Oswald:400,700" rel="stylesheet">
     <link rel="stylesheet" href="/fonts/icomoon/style.css">
@@ -89,12 +89,12 @@
                 <ul class="js-clone-nav">
                     <li><a href="#section-home" class="nav-link">Home</a></li>
                     <li><a href="#section-exhibition" class="nav-link">Exhibition</a></li>
-                    {% if session_user %}
+                    <% if(session){ %>
                     <li><a href="#section-mypage" class="nav-link">MyPage</a></li>
-                    {% else %}
+                    <% } else if(session == "none") { %>
                     <li><a href="#section-login" class="nav-link">Login</a></li>
                     <li><a href="#section-join" class="nav-link">Join</a></li>
-                    {% endif %}
+                    <%}%>
                 </ul>
             </div>
         </header>
@@ -110,13 +110,13 @@
                                 For your choice without regrets.<br>
                                 Check the review and make a reservation.
                             </p>
-                            {% if session_user %}
+                            <% if(session){ %>
                             <p data-aos="fade-up" data-aos-delay="100"><a href="/exhibition"
-                                    class="btn btn-primary btn-md smoothscroll">Go look around</a></p>
-                            {% else %}
+                            class="btn btn-primary btn-md smoothscroll">Go look around</a></p>
+                            <% } else if(session == "none") { %>
                             <p data-aos="fade-up" data-aos-delay="100"><a href="#section-join"
-                                    class="btn btn-primary btn-md smoothscroll">Join Me</a></p>
-                            {% endif %}
+                            class="btn btn-primary btn-md smoothscroll">Join Me</a></p>
+                            <%}%>
                         </div>
                     </div>
                 </div>
@@ -140,9 +140,8 @@
                                     <div class="col-md-12 mb-4" data-aos="fade-up">
                                         <div class="d-md-flex d-block blog-entry align-items-start">
                                             <div class="mr-0 mr-md-5 mb-3 img-wrap"><a
-                                                    href="/detail' pk=p.exhname %}"><img
-                                                        src='media/{{ p.exhimage }}' alt="Image"
-                                                        class="img-fluid"></img></div>
+                                                    href="/detail' pk=p.exhname %}"><img src='media/{{ p.exhimage }}'
+                                                        alt="Image" class="img-fluid"></img></div>
                                             <div class="">
                                                 <h2 class="mt-0 mb-2">
                                                     <a href="/detail' pk=p.exhname %}">
@@ -166,7 +165,7 @@
                     </div>
                 </section>
 
-                {% if session_user %}
+                <% if(session){ %>
                 <section class="site-section darken-bg" id="section-mypage">
                     <div class="container">
                         <div class="row justify-content-center">
@@ -184,11 +183,10 @@
                                 <h2 class="heading text-uppercase text-white">MyPage</h2>
                                 <div class="d-flex justify-content-between">
                                     <div class="d-flex justify-content-start">
-                                        <h4 class="session_user">{{session_user}}</h4>
+                                        <h4 class="session_user"><%= session%></h4>
                                         <h4>님</h4>
                                     </div>
-                                    <a href="/logout" id="logout"
-                                        class="btn btn-sm btn-secondary text-white">Logout</a>
+                                    <a href="/logout" id="logout" class="btn btn-sm btn-secondary text-white">Logout</a>
                                 </div>
                                 <hr color="dimgray">
 
@@ -331,7 +329,7 @@
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form action="/withdrawal" method="POST">
+                                                            <form action="/main" method="POST">
                                                                 {% csrf_token %}
                                                                 <div class="row form-group">
                                                                     <div class="col-md-12">
@@ -383,7 +381,7 @@
                         </div>
                     </div>
                 </section>
-                {% else %}
+                <% } else if(session == "none") { %>
                 <section class="site-section darken-bg" id="section-login">
                     <div class="container">
                         <div class="row justify-content-center">
@@ -394,9 +392,7 @@
                                     <input type="hidden" id="Urlhome" data-url="/main" />
                                     <small class="ajaxmsg"></small>
                                 </div>
-                                <form action="/ajaxlogin" method="POST">
-                                    {% csrf_token %}
-
+                                <form action="/main" method="POST">
                                     <div class="row form-group">
                                         <div class="col-md-12">
                                             <label class="text-white" for="loginid">ID</label>
@@ -420,8 +416,10 @@
                                     </div>
                                     <div class="row form-group">
                                         <div class="col-md-12">
-                                            <button type="button" id="login" class="btn btn-primary btn-md text-white"
-                                                onclick="ajaxlogin();">Login</button>
+                                            <button type="submit" id="login" class="btn btn-primary btn-md text-white"">Login</button>
+                                            <!-- <button type=" button" id="login"
+                                                class="btn btn-primary btn-md text-white"
+                                                onclick="ajaxlogin();">Login</button> -->
                                         </div>
                                     </div>
                                 </form>
@@ -436,8 +434,7 @@
                             <div class="col-md-8">
                                 <h2 class="text-white mb-5 heading">Join</h2>
 
-                                <form action="/signup" method="POST">
-                                    {% csrf_token %}
+                                <form action="main" method="POST">
 
                                     <div class="row form-group">
                                         <div class="col-md-12">
@@ -452,8 +449,10 @@
                                             <label class="text-white" for="inputid">ID</label><small
                                                 class="idcheckmsg float-right"></small>
                                             <div class="input-group-prepend">
-                                                <input type="text" id="inputid" class="form-control fail" name="user_id"
+                                                <input type="text" id="inputid" class="form-control" name="user_id"
                                                     required pattern="[\w]{3,}">
+                                                <!-- <input type="text" id="inputid" class="form-control fail" name="user_id"
+                                                    required pattern="[\w]{3,}"> -->
                                                 <div class="input-group-append">
                                                     <button type="button" id="checkbutton"
                                                         class="btn btn-outline-secondary" style="width: max-content;"
@@ -510,7 +509,7 @@
                             </div>
                         </div>
                 </section>
-                {% endif %}
+                <%}%>
                 <footer class="row justify-content-center">
                     <div class="col-md-12 text-center py-5">
                         <p>
