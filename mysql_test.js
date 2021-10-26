@@ -134,8 +134,8 @@ app.post('/main', (req, res) => {
 
 app.get('/logout', (req, res) => {
     req.session.destroy();
-    // res.redirect('main');
-    res.render('main', {session: "none"});
+    res.redirect('main');
+    // res.render('main', {session: "none"});
 });
 
 

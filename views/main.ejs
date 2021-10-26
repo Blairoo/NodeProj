@@ -89,9 +89,9 @@
                 <ul class="js-clone-nav">
                     <li><a href="#section-home" class="nav-link">Home</a></li>
                     <li><a href="#section-exhibition" class="nav-link">Exhibition</a></li>
-                    <% if(session){ %>
+                    <% if(session != "none"){ %>
                     <li><a href="#section-mypage" class="nav-link">MyPage</a></li>
-                    <% } else if(session == "none") { %>
+                    <% } else { %>
                     <li><a href="#section-login" class="nav-link">Login</a></li>
                     <li><a href="#section-join" class="nav-link">Join</a></li>
                     <%}%>
@@ -110,10 +110,13 @@
                                 For your choice without regrets.<br>
                                 Check the review and make a reservation.
                             </p>
-                            <% if(session){ %>
+                            <script>
+                                console.log('<%= session %>');
+                            </script>
+                            <% if(session != "none"){ %>
                             <p data-aos="fade-up" data-aos-delay="100"><a href="/exhibition"
                             class="btn btn-primary btn-md smoothscroll">Go look around</a></p>
-                            <% } else if(session == "none") { %>
+                            <% } else { %>
                             <p data-aos="fade-up" data-aos-delay="100"><a href="#section-join"
                             class="btn btn-primary btn-md smoothscroll">Join Me</a></p>
                             <%}%>
@@ -165,7 +168,7 @@
                     </div>
                 </section>
 
-                <% if(session){ %>
+                <% if(session != "none"){ %>
                 <section class="site-section darken-bg" id="section-mypage">
                     <div class="container">
                         <div class="row justify-content-center">
@@ -381,7 +384,7 @@
                         </div>
                     </div>
                 </section>
-                <% } else if(session == "none") { %>
+                <% } else { %>
                 <section class="site-section darken-bg" id="section-login">
                     <div class="container">
                         <div class="row justify-content-center">

@@ -26,6 +26,7 @@ app.use('/upload', express.static(__dirname + '/uploads'));
 // multer라는 모듈이 함수라서 함수에 옵션을 줘서 실행을 시키면, 해당 함수는 미들웨어를 리턴한다.
 const port = 8000;
 
+
 app.set("view engine", "ejs");
 // views는 내가 설정한 폴더 이름
 app.set("views", __dirname + "/views");
