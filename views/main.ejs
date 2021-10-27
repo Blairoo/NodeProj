@@ -235,15 +235,13 @@
                                                 회원 정보 수정
                                             </div>
                                             <div class="card-body">
-                                                {%for info in logged_user %}
-                                                <form action="/edit" method="POST">
-                                                    {% csrf_token %}
+                                                <form action="/main" method="POST">
                                                     <div class="row form-group">
                                                         <div class="col-md-12">
                                                             <label class="text-white" for="editname">Name</label>
                                                             <input type="text" id="editname" class="form-control"
                                                                 name="edit_name" required pattern="[가-힣]{2,}"
-                                                                value="{{info.username}}" readonly>
+                                                                value="<%= logged_user.username %>" readonly>
                                                         </div>
                                                     </div>
 
@@ -252,7 +250,7 @@
                                                             <label class="text-white" for="editid">ID</label>
                                                             <input type="text" id="editid" class="form-control fail"
                                                                 name="edit_id" required pattern="[\w]{3,}"
-                                                                value="{{info.userid}}" readonly>
+                                                                value="<%= logged_user.userid %>" readonly>
                                                         </div>
                                                     </div>
 
@@ -266,7 +264,7 @@
                                                                     aria-describedby="#editpwhelp"
                                                                     class="form-control joinpw" name="edit_pw" required
                                                                     pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$"
-                                                                    value="{{info.userpw}}" readonly>
+                                                                    value="<%= logged_user.userpw %>" readonly>
                                                                 <div class="input-group-append eyes d-none">
                                                                     <button type="button"
                                                                         class="btn btn-outline-secondary"><i
@@ -285,12 +283,11 @@
                                                             <label class="text-white" for="editphone">Phone</label>
                                                             <input type="text" id="editphone" class="form-control fail"
                                                                 name="edit_phone" required maxlength="11" minlength="11"
-                                                                value="{{info.userphone}}" readonly>
+                                                                value="<%= logged_user.userphone %>" readonly>
                                                         </div>
                                                     </div>
-                                                    {% endfor %}
-                                                    <!-- edit button click하면 input창 readonly 해제 -->
                                                     <script>
+                                                        // edit button click하면 input창 readonly 해제
                                                         $(function () {
                                                             $('#goedit').on('click', function () {
                                                                 $(this).addClass('d-none').siblings(

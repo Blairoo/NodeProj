@@ -23,13 +23,6 @@ app.use(session({
 //     }
 //     res.send(`Number : ${req.session.num}`);
 // });
-app.get('/logged', (req, res) => {
-    if(req.session.logined) {
-        res.render('logout', { session: req.session.user_id });
-    } else {
-        res.render('login');
-    }
-});
 
 app.set("view engine", "ejs");
 // views는 내가 설정한 폴더 이름
@@ -47,18 +40,20 @@ const conn = mysql.createConnection({
 	database: 'node'
 });
 
-app.get( '/test', ( req, res ) => {
-	const sql = "SELECT * FROM member";
-	
-	conn.query( sql, function( err, results ){
-		res.render( 'test', { param1: results } );
-	});
-});
-
 app.get('/main', (req, res) => {
     if(req.session.logined) {
         console.log("logged")
-        res.render('main', { session: req.session.user_id });
+        console.log(req.session.user_id)
+        const sel = `SELECT * FROM User WHERE userid = '${req.session.user_id}';`;
+        conn.query(sel, (err, results) => {
+            console.log('로그인된상태로리다이렉트')
+            console.log(results)
+            req.session.logined = true;
+            req.session.user_id = results[0].userid;
+            console.log(req.session)
+            res.render('main', { session: req.session.user_id, logged_user: results[0]});
+            
+        });
     } else {
         console.log("please login")
         res.render('main', {session: "none"});
@@ -101,7 +96,8 @@ app.post('/main', (req, res) => {
                         console.log("확인")
                         req.session.logined = true;
                         req.session.user_id = req.body.login_id;
-                        res.render('main', { session: req.session.user_id });
+                        console.log(req.session)
+                        res.render('main', { session: req.session.user_id, logged_user: results[i]});
                     }
                 }
             }
@@ -126,6 +122,28 @@ app.post('/main', (req, res) => {
                         });
                     }
                 }
+            }
+        });
+    }
+
+    if(req.body.edit_id){
+        const sel = `SELECT * FROM User WHERE userid = '${req.body.edit_id}' AND userpw = '${req.body.edit_pw}' AND userphone = '${req.body.edit_phone}';`;
+        conn.query(sel, (err, results) => {
+            console.log(results)
+            if(results.length > 0){
+                console.log('바뀐 정보가 없습니다')
+                res.redirect('http://115.85.180.68:8000/main#section-mypage');
+            } else {
+                const edit = `UPDATE User SET userpw = '${req.body.edit_pw}', userphone = '${req.body.edit_phone}' WHERE userid = '${req.body.edit_id}';`;
+                conn.query(edit, function(err,result){
+                    if(err){
+                        console.log('failed!:' + err);
+                    }
+                    else{
+                        console.log("data updated!");
+                        res.redirect('http://115.85.180.68:8000/main#section-mypage');
+                    }
+                });
             }
         });
     }
