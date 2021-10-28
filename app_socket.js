@@ -38,8 +38,6 @@ function update_list() {
 }
 // 아래 "connection"은 정해져 있는 이벤트, (socket)socket 안에 누가 요청했는지 들어감
 io.on("connection", function(socket){
-    // 서버에 접속한 모든 소켓들의 정보가 io에 저장됨, io.emit은 접속한 모든 클라이언트에 보내는 것
-    // io.emit()
     // socket과 관련한 통신 작업을 모두 처리하는 함수(채팅 보내고 받는 것을 처리하는 것)
     console.log("Socket connected")
     const socketId = socket.id;
@@ -54,7 +52,8 @@ io.on("connection", function(socket){
         console.log(data);
         // console.log(socket.handshake.headers.cookie);
         // 데이터를 보낼 때도 특정 room으로 보내는 것, 내가 등록한 room으로만 보낼 수 있음, room에 접속한 모든 사람 볼 수 있음
-        io.sockets.in(roomName).emit('recMsg', {comment: socketId, msg: data.comment, time: moment().format("HH:mm A")});
+        // 서버에 접속한 모든 소켓들의 정보가 io에 저장됨, io.emit은 접속한 모든 클라이언트에 보내는 것
+        io.sockets.in(roomName).emit('recMsg', {id: socketId, msg: data.comment, time: moment().format("HH:mm A")});
     });
     // disconnect하면서 리스트에 있는 socket.id도 지우는 법
     // socket.on( "disconnect", function () {

@@ -19,14 +19,21 @@
         #flexdiv {
             height: 100vh;
         }
+        .card {
+            border-radius: 10px;
+        }
         .card-body {
-            height: 50vh;
+            height: 45vh;
             overflow: scroll;
             background-color: rgb(189, 209, 220);
             padding: 0;
         }
         .card-header{
             padding: 0 10px;
+            height: 10vh;
+        }
+        .card-footer{
+            height: 10vh;
         }
         .notice {
             text-align: center;
@@ -39,6 +46,9 @@
         dt {
             margin-left: 5px;
             font-size: small;
+        }
+        dd{
+            align-items: flex-end;
         }
         dd > .msg {
             position: relative;
@@ -109,8 +119,8 @@
                     </div>
                     <dl id="chatList" class="card-body">
                     </dl>
-                    <div class="card-footer input-group">
-                        <input type="text" id="send" class="form-control" placeholder="Type a message here" aria-describedby="button-addon2" onkeypress="enter()">
+                    <div class="card-footer input-group p-0">
+                        <textarea id="send" class="form-control h-100" placeholder="Type a message here" style="resize: none;" onkeypress="enter()"></textarea>
                         <div class="input-group-append">
                             <button class="btn btn-outline-warning" type="button" onclick="go();">Send</button>
                         </div>
@@ -126,16 +136,15 @@
             roomName: "myRoom"
         });
         socket.on('recMsg', (data) => {
-            console.log(data.comment);
-            $('#chat').append(data.comment);
-            $('#chatList').append(`<dt>${data.comment}</dt>
-                <dd class="m-1"><span class="tail"></span><span class="msg p-1">${data.msg}</span><span class="time">${data.time}</span></dd>`);
-            $( ".card-body" ).scrollTop( $( "#chatList" ).height());
-
+            console.log(data.id);
+            $('#chat').append(data.id);
+            $('#chatList').append(`<dt class="m-1">${data.id}</dt>
+                <dd class="m-1 mb-2 d-flex align-self-baseline"><span class="msg p-2">${data.msg}</span><span class="time">${data.time}</span></dd>`);
+            $(".card-body").scrollTop(function() { return this.scrollHeight; });
         });
         socket.on('notice', (data) => {
             $("#chatList").append(`<p class="notice">${data.notice}</p>`);
-            $( ".card-body" ).scrollTop( $( "#chatList" ).height());
+            $(".card-body").scrollTop(function() { return this.scrollHeight; });
         });
         function b(){
             document.getElementById( "div3" ).scrollTop = $( "#div_temp" ).height();
