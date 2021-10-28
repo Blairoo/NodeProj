@@ -1,35 +1,237 @@
 <html>
-    <head>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-        <script>
-            const socket = io.connect(); // 괄호 안에 주소를 정확히 적기, 외부 ip라면 그 ip주소도 정확히
-            socket.emit("joinRoom", {roomName: "myRoom"});
-            socket.on('recMsg', (data) => {
-                console.log(data.comment);
-                $('#chat').append(data.comment);
-                $('#chatList').append(`<dt>${data.comment}</dt>
-                <dd>${data.msg}</dd>`);
-            });
-            function go(){
-                socket.emit("reqMsg", {comment: $('#send').val()});
-                $('#send').val('');
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous">
+    </script>
+    <!-- font-awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        #flexdiv {
+            height: 100vh;
+        }
+        .card-body {
+            height: 50vh;
+            overflow: scroll;
+            background-color: rgb(189, 209, 220);
+            padding: 0;
+        }
+        .card-header{
+            padding: 0 10px;
+        }
+        .notice {
+            text-align: center;
+            font-size: x-small;
+            background-color: rgb(179, 198,209);
+        }
+        dl {
+            margin-bottom: 0;
+        }
+        dt {
+            margin-left: 5px;
+            font-size: small;
+        }
+        dd > .msg {
+            position: relative;
+            background-color: white;
+            width: fit-content;
+            margin-left: 5px;
+            font-size: x-small;
+            border-radius: 3px;
+        }
+        dd > .msg::after {
+            border-top: 5px solid white;
+            border-left: 5px solid transparent;
+            content: "";
+            position: absolute;
+            top: 3px;
+            left: -5px;
+        }
+        .redbtn {
+            color: rgb(255, 95,87);
+            font-size: 0.8em;
+        }
+        .yelbtn {
+            color: rgb(254, 188, 46);
+            font-size: 0.8em;
+        }
+        .grebtn {
+            color: rgb(40, 200, 64);
+            font-size: 0.8em;
+        }
+        .count{
+            font-size: 0.7rem;
+            color: gray;
+        }
+        .time{
+            font-size: 0.5rem;
+            color: gray;
+            margin-left: 1em;
+        }
+        /* .tail{
+            border-top: 5px solid blue;
+            border-left: 5px solid transparent;
+            width: 5px;
+        }
+        .tail::after{
+            position: sticky;
+        } */
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-center align-items-center" id="flexdiv">
+            <div class="col-9 col-md-5">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <i class="fas fa-circle redbtn"></i>
+                            <i class="fas fa-circle yelbtn"></i>
+                            <i class="fas fa-circle grebtn"></i>
+                        </div>
+                        <div class="d-flex justify-content-start row">
+                            <img src="/images/hachan.jpg" width="50px" class="rounded-circle ml-3 my-1">
+                            <div class="m-2 mt-2">
+                                <h6>푸하하</h6><time datetime="hh:mm:ss"></time>
+                                <i class="fas fa-user-alt mb-1 count"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <dl id="chatList" class="card-body">
+                    </dl>
+                    <div class="card-footer input-group">
+                        <input type="text" id="send" class="form-control" placeholder="Type a message here" aria-describedby="button-addon2" onkeypress="enter()">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-warning" type="button" onclick="go();">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+    <script>
+        const socket = io.connect(); // 괄호 안에 주소를 정확히 적기, 외부 ip라면 그 ip주소도 정확히
+        // socket.emit("플래그이름", )
+        socket.emit("joinRoom", {
+            roomName: "myRoom"
+        });
+        socket.on('recMsg', (data) => {
+            console.log(data.comment);
+            $('#chat').append(data.comment);
+            $('#chatList').append(`<dt>${data.comment}</dt>
+                <dd class="m-1"><span class="tail"></span><span class="msg p-1">${data.msg}</span><span class="time">${data.time}</span></dd>`);
+            $( ".card-body" ).scrollTop( $( "#chatList" ).height());
+
+        });
+        socket.on('notice', (data) => {
+            $("#chatList").append(`<p class="notice">${data.notice}</p>`);
+            $( ".card-body" ).scrollTop( $( "#chatList" ).height());
+        });
+        function b(){
+            document.getElementById( "div3" ).scrollTop = $( "#div_temp" ).height();
+        }
+
+        function enter() {
+            if (event.key === "Enter") {
+                go();
             }
-            function enter (){
-                if(event.key==="Enter"){
-                    go();
+        }
+        chat.addEventListener('keypress', function (e) {
+            let nick = document.getElementById("nick");
+            let chat = document.getElementById("chat");
+            if (e.key === 'Enter') {
+                if (nick.value === "" || chat.value === "") {
+                    alert("대화명 또는 메세지를 입력하세요");
+                    return false;
+                } else {
+                    let DM_list = document.getElementById("nick_list");
+                    let DM = DM_list.options[DM_list.selectedIndex].value;
+                    let myChat = chat.value;
+                    myNick = nick.value;
+                    let data = {
+                        DM,
+                        myNick,
+                        myChat
+                    };
+                    socket.emit("sendMsg", data);
+                    document.getElementById("chat").value = "";
                 }
             }
-        </script>
-    </head>
-    <body>
-        <h1>This is Socket EJS</h1>
-        <div class="container" style="background-color: aquamarine;">
-            <dl id="chatList">
-            </dl>
-            <!-- <textarea id="chat"></textarea> -->
-        </div>
-        <input type="text" id="send" onkeypress="enter()">
-        <button type="button" onclick="go();">Send</button>
-    </body>
+        });
+
+        socket.on("sendMsg", (msg) => {
+            // (1) 클라이언트의 닉네임의 변화 체크 + 닉네임 리스트 업데이트
+            if (nick_array[socket.id] !== msg["myNick"]) {
+                if (Object.values(nick_array).indexOf(msg["myNick"]) > -1) {
+                    socket.emit("error", "이미 존재하는 대화명입니다.");
+                    return false;
+                } else {
+                    nick_array[socket.id] = msg["myNick"];
+                    update_list();
+                }
+            }
+            const msgTime = getTime();
+            // (2) 귓속말 여부 체크
+            if (msg["DM"] !== "전체") {
+                let DM_socketID = Object.keys(nick_array).find(key => nick_array[key] === msg["DM"]);
+                const data = {
+                    msg,
+                    msgTime,
+                    DM: "(속닥속닥) "
+                };
+                // io.to는 특정 client에 보내는 것
+                io.to(DM_socketID).emit("newMsg", data)
+                socket.emit("newMsg", data)
+            } else {
+                const data = {
+                    msg,
+                    msgTime
+                };
+                io.emit("newMsg", data);
+            }
+        });
+        // 귓속말 받기
+        socket.on("newMsg", (data) => {
+            let show = document.getElementById("show");
+            let div_container = document.createElement("div");
+            let div = document.createElement("div");
+            let span = document.createElement("span");
+            span.innerText = data["msgTime"];
+            div.textContent = `${data["msg"]["myNick"]} : ${data["msg"]["myChat"]}`;
+            if (myNick === data["msg"]["myNick"]) {
+                div_container.classList.add("myChat");
+            }
+            if (data["DM"]) {
+                div.classList.add("secret");
+                div.textContent = data["DM"] + div.textContent;
+            }
+            div.appendChild(span);
+            div_container.appendChild(div);
+            show.appendChild(div_container);
+            show.scrollTop = show.scrollHeight;
+        });
+        function go() {
+            socket.emit("reqMsg", {
+                comment: $('#send').val()
+            });
+            $('#send').val('');
+            // $(".card-body").scrollTop(function() { return this.scrollHeight; });
+            // $(".card-body").animate({
+            //     scrollTop: $("dl").offset().top
+            // }, 500);
+            // document.getElementsByClassName('card-body').scrollTop = $("dl").height();
+        }
+    </script>
+</body>
+
 </html>
