@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     <style>
         #flexdiv {
             height: 100vh;
@@ -50,6 +49,22 @@
         dd{
             align-items: flex-end;
         }
+        dd.myChat > .msg {
+            position: relative;
+            background-color: white;
+            width: fit-content;
+            margin-right: 5px;
+            font-size: x-small;
+            border-radius: 3px;
+        }
+        dd.myChat .msg::after{
+            border-top: 5px solid white;
+            border-right: 5px solid transparent;
+            content: "";
+            position: absolute;
+            top: 3px;
+            right: -5px;
+        }
         dd > .msg {
             position: relative;
             background-color: white;
@@ -58,7 +73,7 @@
             font-size: x-small;
             border-radius: 3px;
         }
-        dd > .msg::after {
+        dd.everyChat > .msg::after {
             border-top: 5px solid white;
             border-left: 5px solid transparent;
             content: "";
@@ -85,16 +100,16 @@
         .time{
             font-size: 0.5rem;
             color: gray;
-            margin-left: 1em;
+            margin-left: 0.5em;
         }
-        /* .tail{
-            border-top: 5px solid blue;
-            border-left: 5px solid transparent;
-            width: 5px;
+        .profile{
+            background-color: ivory;
+            width: 25px;
         }
-        .tail::after{
-            position: sticky;
-        } */
+        .fa-pen{
+            color: gray;
+            font-size: 0.7rem;
+        }
     </style>
 </head>
 
@@ -109,18 +124,21 @@
                             <i class="fas fa-circle yelbtn"></i>
                             <i class="fas fa-circle grebtn"></i>
                         </div>
-                        <div class="d-flex justify-content-start row">
-                            <img src="/images/hachan.jpg" width="50px" class="rounded-circle ml-3 my-1">
-                            <div class="m-2 mt-2">
-                                <h6>푸하하</h6><time datetime="hh:mm:ss"></time>
-                                <i class="fas fa-user-alt mb-1 count"></i>
+                        <div class="row">
+                            <img src="/images/hachan.jpg" width="50px" height="50px" class="rounded-circle ml-3 my-1">
+                            <div class="m-2">
+                                <h6>푸하하</h6>
+                                <i class="fas fa-pen" style="cursor: pointer;" onclick="nick();"></i>
+                                <i class="fas fa-user-alt count" style="cursor: pointer;"></i>
                             </div>
                         </div>
                     </div>
-                    <dl id="chatList" class="card-body">
-                    </dl>
+                    <div>
+                        <dl id="chatList" class="card-body">
+                        </dl>
+                    </div>
                     <div class="card-footer input-group p-0">
-                        <textarea id="send" class="form-control h-100" placeholder="Type a message here" style="resize: none;" onkeypress="enter()"></textarea>
+                        <textarea id="send" class="form-control" placeholder="Type a message here" style="resize: none;" onkeypress="enter(event)"></textarea>
                         <div class="input-group-append">
                             <button class="btn btn-outline-warning" type="button" onclick="go();">Send</button>
                         </div>
@@ -129,31 +147,79 @@
             </div>
         </div>    
     </div>
+    <!-- sweet alert -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         const socket = io.connect(); // 괄호 안에 주소를 정확히 적기, 외부 ip라면 그 ip주소도 정확히
+        let socketId
         // socket.emit("플래그이름", )
         socket.emit("joinRoom", {
             roomName: "myRoom"
         });
+        socket.on('mySocket', (data)=>{
+            socketId = data.id;
+            console.log("내꺼"+socketId);
+        })
         socket.on('recMsg', (data) => {
-            console.log(data.id);
-            $('#chat').append(data.id);
-            $('#chatList').append(`<dt class="m-1">${data.id}</dt>
-                <dd class="m-1 mb-2 d-flex align-self-baseline"><span class="msg p-2">${data.msg}</span><span class="time">${data.time}</span></dd>`);
-            $(".card-body").scrollTop(function() { return this.scrollHeight; });
+            if (data.id == socketId){
+                $('#chatList').append(`<dd class="myChat m-1 mb-2 d-flex align-self-baseline justify-content-end"><span class="time">${data.time}</span><span class="msg p-2">${data.msg}</span></dd>`);
+                $(".card-body").scrollTop(function() { return this.scrollHeight; });
+            } else {
+                let first = data.id.charAt(0);
+                $('#chatList').append(`<div class ="profile p-1 rounded-circle d-none">${first}</div><dt class="m-1">${data.id}</dt>
+                    <dd class="m-1 mb-2 d-flex align-self-baseline everyChat"><span class="msg p-2">${data.msg}</span><span class="time">${data.time}</span></dd>`);
+                $(".card-body").scrollTop(function() { return this.scrollHeight; });
+            }
         });
         socket.on('notice', (data) => {
             $("#chatList").append(`<p class="notice">${data.notice}</p>`);
             $(".card-body").scrollTop(function() { return this.scrollHeight; });
         });
-        function b(){
-            document.getElementById( "div3" ).scrollTop = $( "#div_temp" ).height();
+
+        function enter(evt) {
+            if (event.key === "Enter") {
+                evt.preventDefault();
+                go();
+            } else if(event.which === 16 && 13){
+                
+            }
         }
 
-        function enter() {
-            if (event.key === "Enter") {
-                go();
-            }
+        function nick(){
+            Swal.fire({
+                title: 'Enter your Name',
+                input: 'text',
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                showCancelButton: true,
+                confirmButtonText: 'Check',
+                allowOutsideClick: true,
+                backdrop: true,
+                showLoaderOnConfirm: true,
+                preConfirm: (login) => {
+                    return fetch(`//api.github.com/users/${login}`)
+                    .then(response => {
+                        if (!response.ok) {
+                        throw new Error(response.statusText)
+                        }
+                        return response.json()
+                    })
+                    .catch(error => {
+                        Swal.showValidationMessage(
+                        `Request failed: ${error}`
+                        )
+                    })
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                    title: `${result.value.login}'s avatar`,
+                    imageUrl: result.value.avatar_url
+                    })
+                }
+            });
         }
         chat.addEventListener('keypress', function (e) {
             let nick = document.getElementById("nick");
@@ -229,6 +295,32 @@
             show.appendChild(div_container);
             show.scrollTop = show.scrollHeight;
         });
+
+        // 승민님 리스트 보여주기
+        // socket.on("newulist",(data)=>{
+        // $(".userinfo").empty();
+        // $(".userlist").empty();
+        // console.log(data.ulist);
+        // console.log(data.left_ulist);
+
+        // for(let i = 0; i<data.ulist.length; i++){
+        //     if(data.ulist[i].id===socketid){
+        //         $(".userinfo").text(data.ulist[i].name);
+        //         $(".userinfo").css("color",data.ulist[i].color);
+        //     }
+        //     else{
+        //         $(".userlist").append("<div class='ulist'></div>");
+        //         $(".userlist").find(".ulist:last-child").text(data.ulist[i].name);
+        //         $(".userlist").find(".ulist:last-child").css("color",data.ulist[i].color);
+        //     }
+        // }
+        // if(data.left_ulist){
+        //     for(let i=0; i<data.left_ulist.length; i++){
+        //         $(".leftuserlist").append("<div class='ulist'></div>");
+        //         $(".leftuserlist").find(".ulist:last-child").text(data.ulist[i].name);
+        //         $(".leftuserlist").find(".ulist:last-child").css("color",data.ulist[i].color);
+
+
         function go() {
             socket.emit("reqMsg", {
                 comment: $('#send').val()
@@ -240,6 +332,33 @@
             // }, 500);
             // document.getElementsByClassName('card-body').scrollTop = $("dl").height();
         }
+
+
+        $(document).on("pageload", function(){
+            console.log("ready")
+            Swal.fire({
+                title: "예매를 취소하겠습니까?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '예매 취소'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        text: '성공적으로 취소했습니다!',
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: '확인'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                }
+            });
+        });
+
     </script>
 </body>
 

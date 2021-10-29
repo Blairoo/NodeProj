@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const body = require('body-parser');
 const { read } = require('fs');
+const Swal = require('sweetalert2');
 app.use( body.urlencoded( { extended:false } ) );
 app.use( body.json() );
 
@@ -41,6 +42,7 @@ io.on("connection", function(socket){
     // socket과 관련한 통신 작업을 모두 처리하는 함수(채팅 보내고 받는 것을 처리하는 것)
     console.log("Socket connected")
     const socketId = socket.id;
+    io.to(socketId).emit("mySocket", {id: socketId});
     // 보낼 때는 socket.emit
     socket.on("joinRoom", (data) => {
         console.log(data);
@@ -61,6 +63,20 @@ io.on("connection", function(socket){
     //     io.emit( "notice", `${nick_array[socket.id]}님이 퇴장하셨습니다.`)
     //     delete nick_array[socket.id];
     //     update_list();
+    // });
+    // 승민님
+    // socket.on("disconnect",()=>{
+    //     let len=ulist.length;
+    //     for( var i = 0; i < len; i++){ 
+    //         if ( ulist[i].id === socket.id) { 
+    //             let user=ulist[i];
+    //             left_ulist.push(user);
+    //             ulist.splice(i, 1);
+    //             break;
+    //         }
+    //     io.emit("notice",`${socket.id}님 도망감`);
+    //     newulist();
+    //     };
     // });
     // 클라이언트 종료하면 자동 disconnect 됨
     socket.on("disconnect", ()=> {
