@@ -4,8 +4,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
         integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous">
@@ -153,13 +151,16 @@
     <script>
         const socket = io.connect(); // 괄호 안에 주소를 정확히 적기, 외부 ip라면 그 ip주소도 정확히
         let socketId
+        let myNick
         // socket.emit("플래그이름", )
         socket.emit("joinRoom", {
             roomName: "myRoom"
         });
         socket.on('mySocket', (data)=>{
             socketId = data.id;
-            console.log("내꺼"+socketId);
+            myNick = data.nick;
+            console.log("내꺼"+socketId+"닉"+myNick);
+            console.log(data.narray)
         })
         socket.on('recMsg', (data) => {
             if (data.id == socketId){
@@ -167,7 +168,7 @@
                 $(".card-body").scrollTop(function() { return this.scrollHeight; });
             } else {
                 let first = data.id.charAt(0);
-                $('#chatList').append(`<div class ="profile p-1 rounded-circle d-none">${first}</div><dt class="m-1">${data.id}</dt>
+                $('#chatList').append(`<div class ="profile p-1 rounded-circle d-none">${first}</div><dt class="m-1">${data.nick}</dt>
                     <dd class="m-1 mb-2 d-flex align-self-baseline everyChat"><span class="msg p-2">${data.msg}</span><span class="time">${data.time}</span></dd>`);
                 $(".card-body").scrollTop(function() { return this.scrollHeight; });
             }
@@ -197,29 +198,50 @@
                 confirmButtonText: 'Check',
                 allowOutsideClick: true,
                 backdrop: true,
-                showLoaderOnConfirm: true,
-                preConfirm: (login) => {
-                    return fetch(`//api.github.com/users/${login}`)
-                    .then(response => {
-                        if (!response.ok) {
-                        throw new Error(response.statusText)
+                inputPlaceholder: myNick,
+            }).then(function(nick){
+                if (nick.isConfirmed){
+                    console.log("ajax시작")
+                    console.log(nick.value);
+                    $.ajax({
+                        url: "/ajax",
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                            "nick": nick.value,
+                            "socketId": socketId
+                        },
+                        success: function(data){
+                            console.log(data.nick);
+                            console.log(data.result);
+                            if (data.result == "success"){
+                                Swal.fire({
+                                    title: `Successfully Change`,
+                                    icon:'success',
+                                    confirmButtonText: "OK"
+                                });
+                            }else if(data.result == "fail"){
+                                Swal.fire({
+                                    title: `이미 존재하는 이름입니다`,
+                                    icon: 'warnimg',
+                                    confirmButtonText: '확인'
+                                });
+                            }else if(data.result == "same"){
+                                Swal.fire({
+                                    title: `변경사항이 없습니다.`,
+                                    icon: 'warning',
+                                    confirmButtonText: '확인'
+                                });
+                            }
                         }
-                        return response.json()
-                    })
-                    .catch(error => {
-                        Swal.showValidationMessage(
-                        `Request failed: ${error}`
-                        )
-                    })
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
+                    });
+                }else{
                     Swal.fire({
-                    title: `${result.value.login}'s avatar`,
-                    imageUrl: result.value.avatar_url
+                        title: 'Cancelled',
+                        icon: 'error'
                     })
                 }
-            });
+            })
         }
         chat.addEventListener('keypress', function (e) {
             let nick = document.getElementById("nick");
@@ -298,28 +320,28 @@
 
         // 승민님 리스트 보여주기
         // socket.on("newulist",(data)=>{
-        // $(".userinfo").empty();
-        // $(".userlist").empty();
-        // console.log(data.ulist);
-        // console.log(data.left_ulist);
+        //     $(".userinfo").empty();
+        //     $(".userlist").empty();
+        //     console.log(data.ulist);
+        //     console.log(data.left_ulist);
 
-        // for(let i = 0; i<data.ulist.length; i++){
-        //     if(data.ulist[i].id===socketid){
-        //         $(".userinfo").text(data.ulist[i].name);
-        //         $(".userinfo").css("color",data.ulist[i].color);
+        //     for(let i = 0; i<data.ulist.length; i++){
+        //         if(data.ulist[i].id===socketid){
+        //             $(".userinfo").text(data.ulist[i].name);
+        //             $(".userinfo").css("color",data.ulist[i].color);
+        //         }
+        //         else{
+        //             $(".userlist").append("<div class='ulist'></div>");
+        //             $(".userlist").find(".ulist:last-child").text(data.ulist[i].name);
+        //             $(".userlist").find(".ulist:last-child").css("color",data.ulist[i].color);
+        //         }
         //     }
-        //     else{
-        //         $(".userlist").append("<div class='ulist'></div>");
-        //         $(".userlist").find(".ulist:last-child").text(data.ulist[i].name);
-        //         $(".userlist").find(".ulist:last-child").css("color",data.ulist[i].color);
-        //     }
+        //     if(data.left_ulist){
+        //         for(let i=0; i<data.left_ulist.length; i++){
+        //             $(".leftuserlist").append("<div class='ulist'></div>");
+        //             $(".leftuserlist").find(".ulist:last-child").text(data.ulist[i].name);
+        //             $(".leftuserlist").find(".ulist:last-child").css("color",data.ulist[i].color);
         // }
-        // if(data.left_ulist){
-        //     for(let i=0; i<data.left_ulist.length; i++){
-        //         $(".leftuserlist").append("<div class='ulist'></div>");
-        //         $(".leftuserlist").find(".ulist:last-child").text(data.ulist[i].name);
-        //         $(".leftuserlist").find(".ulist:last-child").css("color",data.ulist[i].color);
-
 
         function go() {
             socket.emit("reqMsg", {
@@ -332,32 +354,6 @@
             // }, 500);
             // document.getElementsByClassName('card-body').scrollTop = $("dl").height();
         }
-
-
-        $(document).on("pageload", function(){
-            console.log("ready")
-            Swal.fire({
-                title: "예매를 취소하겠습니까?",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: '예매 취소'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        text: '성공적으로 취소했습니다!',
-                        icon: 'success',
-                        confirmButtonColor: '#3085d6',
-                        confirmButtonText: '확인'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            form.submit();
-                        }
-                    });
-                }
-            });
-        });
 
     </script>
 </body>
