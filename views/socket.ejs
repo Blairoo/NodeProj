@@ -79,6 +79,27 @@
             top: 3px;
             left: -5px;
         }
+        .dm .msg{
+            /* background-color: cornflowerblue !important; */
+            border: 2px solid hsl(201, 31%, 60%) !important;
+            /* border-color: cornflowerblue !important; */
+        }
+        .dm.myChat .msg::after{
+            border-top: 5px solid hsl(201, 31%, 60%) !important;
+            border-right: 5px solid transparent;
+            content: "";
+            position: absolute;
+            top: 3px;
+            right: -5px;
+        }
+        .dm.everyChat .msg::after{
+            border-top: 5px solid hsl(201, 31%, 60%) !important;
+            border-left: 5px solid transparent;
+            content: "";
+            position: absolute;
+            top: 3px;
+            left: -5px;
+        }
         .redbtn {
             color: rgb(255, 95,87);
             font-size: 0.8em;
@@ -91,7 +112,7 @@
             color: rgb(40, 200, 64);
             font-size: 0.8em;
         }
-        .count{
+        .count, #countlen{
             font-size: 0.7rem;
             color: gray;
         }
@@ -108,6 +129,10 @@
             color: gray;
             font-size: 0.7rem;
         }
+        .dropdown-menu {
+            height: 20vh;
+            overflow-y: scroll;
+        }
     </style>
 </head>
 
@@ -123,11 +148,13 @@
                             <i class="fas fa-circle grebtn"></i>
                         </div>
                         <div class="row">
-                            <img src="/images/hachan.jpg" width="50px" height="50px" class="rounded-circle ml-3 my-1">
-                            <div class="m-2">
+                            <img src="http://115.85.180.68:8000/images/hachan.jpg" width="50px" height="50px" class="rounded-circle ml-3 my-1">
+                            <div class="m-2" id="infobtns">
                                 <h6>푸하하</h6>
                                 <i class="fas fa-pen" style="cursor: pointer;" onclick="nick();"></i>
-                                <i class="fas fa-user-alt count" style="cursor: pointer;"></i>
+                                <a class="fas fa-user-alt count" style="cursor: pointer;" data-toggle="dropdown" aria-expanded="false"></a>
+                                <div class="dropdown-menu">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -160,33 +187,97 @@
             socketId = data.id;
             myNick = data.nick;
             console.log("내꺼"+socketId+"닉"+myNick);
-            console.log(data.narray)
         })
         socket.on('recMsg', (data) => {
-            if (data.id == socketId){
-                $('#chatList').append(`<dd class="myChat m-1 mb-2 d-flex align-self-baseline justify-content-end"><span class="time">${data.time}</span><span class="msg p-2">${data.msg}</span></dd>`);
-                $(".card-body").scrollTop(function() { return this.scrollHeight; });
-            } else {
-                let first = data.id.charAt(0);
-                $('#chatList').append(`<div class ="profile p-1 rounded-circle d-none">${first}</div><dt class="m-1">${data.nick}</dt>
+            let first = data.id.charAt(0);
+            if(data.dm == true){
+                if(data.id == socketId){
+                    console.log("내가보내는 dm")
+                    $('#chatList').append(`<dd class="myChat m-1 mb-2 d-flex align-self-baseline justify-content-end dm"><span class="time">${data.time}</span><span class="msg p-2">${data.msg}</span></dd>`);
+                    $(".card-body").scrollTop(function() { return this.scrollHeight; });
+                }else{
+                    // var msg = data.msg.split(/@| /)[2];
+                    console.log("받는 dm")
+                    $('#chatList').append(`<div class ="profile p-1 rounded-circle d-none">${first}</div><dt class="m-1">${data.nick}</dt>
+                    <dd class="m-1 mb-2 d-flex align-self-baseline everyChat dm"><span class="msg p-2">${data.msg}</span><span class="time">${data.time}</span></dd>`);
+                    $(".card-body").scrollTop(function() { return this.scrollHeight; });
+                }
+            }else{
+                if(data.id == socketId){
+                    console.log("내가보내는 전메")
+                    $('#chatList').append(`<dd class="myChat m-1 mb-2 d-flex align-self-baseline justify-content-end"><span class="time">${data.time}</span><span class="msg p-2">${data.msg}</span></dd>`);
+                    $(".card-body").scrollTop(function() { return this.scrollHeight; });
+                }else{
+                    console.log("받는 전메")
+                    $('#chatList').append(`<div class ="profile p-1 rounded-circle d-none">${first}</div><dt class="m-1">${data.nick}</dt>
                     <dd class="m-1 mb-2 d-flex align-self-baseline everyChat"><span class="msg p-2">${data.msg}</span><span class="time">${data.time}</span></dd>`);
-                $(".card-body").scrollTop(function() { return this.scrollHeight; });
+                    $(".card-body").scrollTop(function() { return this.scrollHeight; });
+                }
             }
         });
         socket.on('notice', (data) => {
+            $("#countlen").empty();
             $("#chatList").append(`<p class="notice">${data.notice}</p>`);
             $(".card-body").scrollTop(function() { return this.scrollHeight; });
+            $(".count").after(`<span id="countlen" class="ml-1">${data.count}</span>`)
         });
+        
+        socket.on("update_nicks",(data)=>{
+            $(".dropdown-menu").empty();
+            // $("#countlen").empty();
+            for(let i = 0; i < data.nlist.length; i++){
+                if(data.nlist[i] != myNick){
+                    $(".dropdown-menu").append(`
+                    <a class="dropdown-item" onclick="dm(this);">${data.nlist[i]}</a>
+                    `);
+                }else{
+                    $(".dropdown-menu").prepend(`
+                    <h6 class="dropdown-header" >${data.nlist[i]}</h6>
+                    `);
+                }
+            }
+            // $(".count").after(`<span id="countlen">${data.nlistlen}</span>`)
+        });
+        function dm(to){
+            var who = $(to).text();
+            $('#send').val("@"+who+" ");
+            $("#send").focus();
+        }
+
+        function go() {
+            if($("#send").val().match(/@*/g)){
+                var send = $("#send").val().split(/@|\s/);
+                var who = send[1];
+                let msg = [];
+                for(var i = 2; i < send.length; i++){
+                    console.log(i);
+                    msg.push(send[i]);
+                }
+                var sendmsg = msg.join(' ');
+                console.log(sendmsg);
+                socket.emit("reqMsg", {
+                    who: who,
+                    comment: sendmsg
+                });
+            }else{
+                socket.emit("reqMsg", {
+                    comment: $('#send').val()
+                });
+            }
+            $('#send').val('');
+        }
 
         function enter(evt) {
             if (event.key === "Enter") {
                 evt.preventDefault();
                 go();
-            } else if(event.which === 16 && 13){
-                
+            } else if(event.key === 16 && event.key === 13){
+                console.log("shiftenter")
+                var content = $("#send").val();
+                $("#send").val(content+"\n");
             }
         }
-
+        
         function nick(){
             Swal.fire({
                 title: 'Enter your Name',
@@ -202,7 +293,6 @@
             }).then(function(nick){
                 if (nick.isConfirmed){
                     console.log("ajax시작")
-                    console.log(nick.value);
                     $.ajax({
                         url: "/ajax",
                         type: "POST",
@@ -223,7 +313,7 @@
                             }else if(data.result == "fail"){
                                 Swal.fire({
                                     title: `이미 존재하는 이름입니다`,
-                                    icon: 'warnimg',
+                                    icon: 'warning',
                                     confirmButtonText: '확인'
                                 });
                             }else if(data.result == "same"){
@@ -243,9 +333,30 @@
                 }
             })
         }
+        
+        // 승민님 리스트 보여주기
+        // socket.on("newulist",(data)=>{
+        //     $(".userinfo").empty();
+        //     $(".userlist").empty();
+        //     console.log(data.ulist);
+        //     console.log(data.left_ulist);
+
+        //     for(let i = 0; i<data.ulist.length; i++){
+        //         if(data.ulist[i].id===socketid){
+        //             $(".userinfo").text(data.ulist[i].name);
+        //             $(".userinfo").css("color",data.ulist[i].color);
+        //         }
+        //         else{
+        //             $(".userlist").append("<div class='ulist'></div>");
+        //             $(".userlist").find(".ulist:last-child").text(data.ulist[i].name);
+        //             $(".userlist").find(".ulist:last-child").css("color",data.ulist[i].color);
+        //         }
+        //     }
+        // });
+
         chat.addEventListener('keypress', function (e) {
             let nick = document.getElementById("nick");
-            let chat = document.getElementById("chat");
+            let chat = document.getElementById("send");
             if (e.key === 'Enter') {
                 if (nick.value === "" || chat.value === "") {
                     alert("대화명 또는 메세지를 입력하세요");
@@ -317,43 +428,6 @@
             show.appendChild(div_container);
             show.scrollTop = show.scrollHeight;
         });
-
-        // 승민님 리스트 보여주기
-        // socket.on("newulist",(data)=>{
-        //     $(".userinfo").empty();
-        //     $(".userlist").empty();
-        //     console.log(data.ulist);
-        //     console.log(data.left_ulist);
-
-        //     for(let i = 0; i<data.ulist.length; i++){
-        //         if(data.ulist[i].id===socketid){
-        //             $(".userinfo").text(data.ulist[i].name);
-        //             $(".userinfo").css("color",data.ulist[i].color);
-        //         }
-        //         else{
-        //             $(".userlist").append("<div class='ulist'></div>");
-        //             $(".userlist").find(".ulist:last-child").text(data.ulist[i].name);
-        //             $(".userlist").find(".ulist:last-child").css("color",data.ulist[i].color);
-        //         }
-        //     }
-        //     if(data.left_ulist){
-        //         for(let i=0; i<data.left_ulist.length; i++){
-        //             $(".leftuserlist").append("<div class='ulist'></div>");
-        //             $(".leftuserlist").find(".ulist:last-child").text(data.ulist[i].name);
-        //             $(".leftuserlist").find(".ulist:last-child").css("color",data.ulist[i].color);
-        // }
-
-        function go() {
-            socket.emit("reqMsg", {
-                comment: $('#send').val()
-            });
-            $('#send').val('');
-            // $(".card-body").scrollTop(function() { return this.scrollHeight; });
-            // $(".card-body").animate({
-            //     scrollTop: $("dl").offset().top
-            // }, 500);
-            // document.getElementsByClassName('card-body').scrollTop = $("dl").height();
-        }
 
     </script>
 </body>
