@@ -12,148 +12,34 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        #flexdiv {
-            height: 100vh;
-        }
-        .card {
-            border-radius: 10px;
-        }
-        .card-body {
-            height: 45vh;
-            overflow: scroll;
-            background-color: rgb(189, 209, 220);
-            padding: 0;
-        }
-        .card-header{
-            padding: 0 10px;
-            height: 10vh;
-        }
-        .card-footer{
-            height: 10vh;
-        }
-        .notice {
-            text-align: center;
-            font-size: x-small;
-            background-color: rgb(179, 198,209);
-        }
-        dl {
-            margin-bottom: 0;
-        }
-        dt {
-            margin-left: 5px;
-            font-size: small;
-        }
-        dd{
-            align-items: flex-end;
-        }
-        dd.myChat > .msg {
-            position: relative;
-            background-color: white;
-            width: fit-content;
-            margin-right: 5px;
-            font-size: x-small;
-            border-radius: 3px;
-        }
-        dd.myChat .msg::after{
-            border-top: 5px solid white;
-            border-right: 5px solid transparent;
-            content: "";
-            position: absolute;
-            top: 3px;
-            right: -5px;
-        }
-        dd > .msg {
-            position: relative;
-            background-color: white;
-            width: fit-content;
-            margin-left: 5px;
-            font-size: x-small;
-            border-radius: 3px;
-        }
-        dd.everyChat > .msg::after {
-            border-top: 5px solid white;
-            border-left: 5px solid transparent;
-            content: "";
-            position: absolute;
-            top: 3px;
-            left: -5px;
-        }
-        .dm .msg{
-            /* background-color: cornflowerblue !important; */
-            border: 2px solid hsl(201, 31%, 60%) !important;
-            /* border-color: cornflowerblue !important; */
-        }
-        .dm.myChat .msg::after{
-            border-top: 5px solid hsl(201, 31%, 60%) !important;
-            border-right: 5px solid transparent;
-            content: "";
-            position: absolute;
-            top: 3px;
-            right: -5px;
-        }
-        .dm.everyChat .msg::after{
-            border-top: 5px solid hsl(201, 31%, 60%) !important;
-            border-left: 5px solid transparent;
-            content: "";
-            position: absolute;
-            top: 3px;
-            left: -5px;
-        }
-        .redbtn {
-            color: rgb(255, 95,87);
-            font-size: 0.8em;
-        }
-        .yelbtn {
-            color: rgb(254, 188, 46);
-            font-size: 0.8em;
-        }
-        .grebtn {
-            color: rgb(40, 200, 64);
-            font-size: 0.8em;
-        }
-        .count, #countlen{
-            font-size: 0.7rem;
-            color: gray;
-        }
-        .time{
-            font-size: 0.5rem;
-            color: gray;
-            margin-left: 0.5em;
-        }
-        .profile{
-            background-color: ivory;
-            width: 25px;
-        }
-        .fa-pen{
-            color: gray;
-            font-size: 0.7rem;
-        }
-        .dropdown-menu {
-            height: 20vh;
-            overflow-y: scroll;
-        }
-    </style>
+    <!-- 추가 css -->
+    <link rel="stylesheet" href="/css/socket.css">
 </head>
 
 <body>
     <div class="container">
         <div class="d-flex justify-content-center align-items-center" id="flexdiv">
-            <div class="col-9 col-md-5">
+            <div class="col-9 col-md-7">
                 <div class="card">
                     <div class="card-header">
                         <div>
-                            <i class="fas fa-circle redbtn"></i>
+                            <a class="fas fa-circle redbtn" href="http://115.85.180.68:8000/list" title="RoomList"></a>
                             <i class="fas fa-circle yelbtn"></i>
                             <i class="fas fa-circle grebtn"></i>
                         </div>
                         <div class="row">
                             <img src="http://115.85.180.68:8000/images/hachan.jpg" width="50px" height="50px" class="rounded-circle ml-3 my-1">
                             <div class="m-2" id="infobtns">
-                                <h6>푸하하</h6>
-                                <i class="fas fa-pen" style="cursor: pointer;" onclick="nick();"></i>
-                                <a class="fas fa-user-alt count" style="cursor: pointer;" data-toggle="dropdown" aria-expanded="false"></a>
-                                <div class="dropdown-menu">
+                                <div class="dropdown">
+                                    <h6 style="cursor: pointer;"id="roomListBtn" data-toggle="dropdown" aria-expanded="false">푸하하</h6>
+                                    <div class="dropdown-menu" id="roomList" aria-labelledby="roomListBtn">
+                                    </div>
+                                </div>
+                                <div class="dropdown">
+                                    <i class="fas fa-pen" style="cursor: pointer;" onclick="nick();"></i>
+                                    <i class="fas fa-user-alt count" id="userListBtn"style="cursor: pointer;" data-toggle="dropdown" aria-expanded="false"></i>
+                                    <div class="dropdown-menu" id="userList" aria-labelledby="userListBtn">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -177,12 +63,79 @@
 
     <script>
         const socket = io.connect(); // 괄호 안에 주소를 정확히 적기, 외부 ip라면 그 ip주소도 정확히
-        let socketId
-        let myNick
+        let socketId;
+        let myNick;
+        let roomName;
         // socket.emit("플래그이름", )
         socket.emit("joinRoom", {
-            roomName: "myRoom"
+            roomName: "defaultRoom"
         });
+        // $(document).ready(function(){
+        //     enterRoom();
+        // });
+        function enterRoom(){
+            Swal.fire({
+                title: 'Enter room name',
+                input: 'text',
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                showCancelButton: true,
+                confirmButtonText: 'Check',
+                allowOutsideClick: true,
+                backdrop: true,
+                inputPlaceholder: roomName,
+            }).then(function(room){
+                if (room.isConfirmed){
+                    console.log("ajax시작");
+                    $.ajax({
+                        url: "/ajaxRoom",
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                            "room": room.value,
+                            "socketId": socketId
+                        },
+                        success: function(data){
+                            console.log(data);
+                            if (data.result == "success"){
+                                Swal.fire({
+                                    title: `Successfully Change`,
+                                    icon:'success',
+                                    confirmButtonText: "OK"
+                                });
+                            }else if(data.result == "fail"){
+                                Swal.fire({
+                                    title: `이미 존재하는 이름입니다`,
+                                    icon: 'warning',
+                                    confirmButtonText: '확인'
+                                });
+                            }else if(data.result == "same"){
+                                Swal.fire({
+                                    title: `변경사항이 없습니다.`,
+                                    icon: 'warning',
+                                    confirmButtonText: '확인'
+                                });
+                            }
+                        }
+                    });
+                }else{
+                    Swal.fire({
+                        title: 'Cancelled',
+                        icon: 'error'
+                    });
+                }
+            });
+        }
+
+
+
+
+
+
+
+
+
         socket.on('mySocket', (data)=>{
             socketId = data.id;
             myNick = data.nick;
@@ -196,7 +149,6 @@
                     $('#chatList').append(`<dd class="myChat m-1 mb-2 d-flex align-self-baseline justify-content-end dm"><span class="time">${data.time}</span><span class="msg p-2">${data.msg}</span></dd>`);
                     $(".card-body").scrollTop(function() { return this.scrollHeight; });
                 }else{
-                    // var msg = data.msg.split(/@| /)[2];
                     console.log("받는 dm")
                     $('#chatList').append(`<div class ="profile p-1 rounded-circle d-none">${first}</div><dt class="m-1">${data.nick}</dt>
                     <dd class="m-1 mb-2 d-flex align-self-baseline everyChat dm"><span class="msg p-2">${data.msg}</span><span class="time">${data.time}</span></dd>`);
@@ -219,25 +171,24 @@
             $("#countlen").empty();
             $("#chatList").append(`<p class="notice">${data.notice}</p>`);
             $(".card-body").scrollTop(function() { return this.scrollHeight; });
-            $(".count").after(`<span id="countlen" class="ml-1">${data.count}</span>`)
+            $(".count").after(`<span id="countlen" class="ml-1">${data.count}</span>`);
         });
         
         socket.on("update_nicks",(data)=>{
-            $(".dropdown-menu").empty();
-            // $("#countlen").empty();
+            $("#userList").empty();
             for(let i = 0; i < data.nlist.length; i++){
                 if(data.nlist[i] != myNick){
-                    $(".dropdown-menu").append(`
+                    $("#userList").append(`
                     <a class="dropdown-item" onclick="dm(this);">${data.nlist[i]}</a>
                     `);
                 }else{
-                    $(".dropdown-menu").prepend(`
+                    $("#userList").prepend(`
                     <h6 class="dropdown-header" >${data.nlist[i]}</h6>
                     `);
                 }
             }
-            // $(".count").after(`<span id="countlen">${data.nlistlen}</span>`)
         });
+
         function dm(to){
             var who = $(to).text();
             $('#send').val("@"+who+" ");
@@ -245,20 +196,22 @@
         }
 
         function go() {
-            if($("#send").val().match(/@*/g)){
-                var send = $("#send").val().split(/@|\s/);
-                var who = send[1];
-                let msg = [];
-                for(var i = 2; i < send.length; i++){
-                    console.log(i);
-                    msg.push(send[i]);
+            if($("#send").val().startsWith("@")){
+                if($("#send").val().match(/^@*/g)){
+                    var send = $("#send").val().split(/^@|\s/);
+                    var who = send[1];
+                    let msg = [];
+                    for(var i = 2; i < send.length; i++){
+                        console.log(i);
+                        msg.push(send[i]);
+                    }
+                    var sendmsg = msg.join(' ');
+                    console.log(sendmsg);
+                    socket.emit("reqMsg", {
+                        who: who,
+                        comment: sendmsg
+                    });
                 }
-                var sendmsg = msg.join(' ');
-                console.log(sendmsg);
-                socket.emit("reqMsg", {
-                    who: who,
-                    comment: sendmsg
-                });
             }else{
                 socket.emit("reqMsg", {
                     comment: $('#send').val()
@@ -272,7 +225,7 @@
                 evt.preventDefault();
                 go();
             } else if(event.key === 16 && event.key === 13){
-                console.log("shiftenter")
+                console.log("shiftenter");
                 var content = $("#send").val();
                 $("#send").val(content+"\n");
             }
@@ -292,9 +245,9 @@
                 inputPlaceholder: myNick,
             }).then(function(nick){
                 if (nick.isConfirmed){
-                    console.log("ajax시작")
+                    console.log("ajax시작");
                     $.ajax({
-                        url: "/ajax",
+                        url: "/ajaxNick",
                         type: "POST",
                         dataType: "JSON",
                         data: {
@@ -329,106 +282,10 @@
                     Swal.fire({
                         title: 'Cancelled',
                         icon: 'error'
-                    })
+                    });
                 }
-            })
+            });
         }
-        
-        // 승민님 리스트 보여주기
-        // socket.on("newulist",(data)=>{
-        //     $(".userinfo").empty();
-        //     $(".userlist").empty();
-        //     console.log(data.ulist);
-        //     console.log(data.left_ulist);
-
-        //     for(let i = 0; i<data.ulist.length; i++){
-        //         if(data.ulist[i].id===socketid){
-        //             $(".userinfo").text(data.ulist[i].name);
-        //             $(".userinfo").css("color",data.ulist[i].color);
-        //         }
-        //         else{
-        //             $(".userlist").append("<div class='ulist'></div>");
-        //             $(".userlist").find(".ulist:last-child").text(data.ulist[i].name);
-        //             $(".userlist").find(".ulist:last-child").css("color",data.ulist[i].color);
-        //         }
-        //     }
-        // });
-
-        chat.addEventListener('keypress', function (e) {
-            let nick = document.getElementById("nick");
-            let chat = document.getElementById("send");
-            if (e.key === 'Enter') {
-                if (nick.value === "" || chat.value === "") {
-                    alert("대화명 또는 메세지를 입력하세요");
-                    return false;
-                } else {
-                    let DM_list = document.getElementById("nick_list");
-                    let DM = DM_list.options[DM_list.selectedIndex].value;
-                    let myChat = chat.value;
-                    myNick = nick.value;
-                    let data = {
-                        DM,
-                        myNick,
-                        myChat
-                    };
-                    socket.emit("sendMsg", data);
-                    document.getElementById("chat").value = "";
-                }
-            }
-        });
-
-        socket.on("sendMsg", (msg) => {
-            // (1) 클라이언트의 닉네임의 변화 체크 + 닉네임 리스트 업데이트
-            if (nick_array[socket.id] !== msg["myNick"]) {
-                if (Object.values(nick_array).indexOf(msg["myNick"]) > -1) {
-                    socket.emit("error", "이미 존재하는 대화명입니다.");
-                    return false;
-                } else {
-                    nick_array[socket.id] = msg["myNick"];
-                    update_list();
-                }
-            }
-            const msgTime = getTime();
-            // (2) 귓속말 여부 체크
-            if (msg["DM"] !== "전체") {
-                let DM_socketID = Object.keys(nick_array).find(key => nick_array[key] === msg["DM"]);
-                const data = {
-                    msg,
-                    msgTime,
-                    DM: "(속닥속닥) "
-                };
-                // io.to는 특정 client에 보내는 것
-                io.to(DM_socketID).emit("newMsg", data)
-                socket.emit("newMsg", data)
-            } else {
-                const data = {
-                    msg,
-                    msgTime
-                };
-                io.emit("newMsg", data);
-            }
-        });
-        // 귓속말 받기
-        socket.on("newMsg", (data) => {
-            let show = document.getElementById("show");
-            let div_container = document.createElement("div");
-            let div = document.createElement("div");
-            let span = document.createElement("span");
-            span.innerText = data["msgTime"];
-            div.textContent = `${data["msg"]["myNick"]} : ${data["msg"]["myChat"]}`;
-            if (myNick === data["msg"]["myNick"]) {
-                div_container.classList.add("myChat");
-            }
-            if (data["DM"]) {
-                div.classList.add("secret");
-                div.textContent = data["DM"] + div.textContent;
-            }
-            div.appendChild(span);
-            div_container.appendChild(div);
-            show.appendChild(div_container);
-            show.scrollTop = show.scrollHeight;
-        });
-
     </script>
 </body>
 

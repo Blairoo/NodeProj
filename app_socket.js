@@ -20,9 +20,11 @@ var moment = require('moment');
 require('moment-timezone'); 
 moment.tz.setDefault("Asia/Seoul"); 
 
-app.use('/test', express.static(__dirname + "/static"));
+app.get("/list",(req,res) => {
+    res.render("roomlist");
+});
 
-app.get("/",(req,res) => {
+    app.get("/chat",(req,res) => {
     res.render("socket");
 });
 
@@ -53,7 +55,7 @@ io.on("connection", function(socket){
         socket.join(data.roomName); // 특정 room에 들어가는 것
         roomName = data.roomName;
         const clients= io.sockets.adapter.rooms.get(roomName);
-        console.log(clients.size);
+        // console.log(clients.size);
         update_list();
         io.emit('notice', {notice: socketId + "님이 들어왔습니다.", count: clients.size})
     });
@@ -73,7 +75,7 @@ io.on("connection", function(socket){
             // console.log(whoo);
             // console.log(who);
             for(var i in nick_array){
-                if(nick_array[i]==data.who){
+                if(nick_array[i]==data.who){// i는 socketid, i로 nick을 index하는 것
                     var dmid = i;
                     console.log(i);
                     break;
@@ -122,7 +124,7 @@ io.on("connection", function(socket){
     })
 })
 // ajax nick 중복 검사
-app.post('/ajax', function(req, res){
+app.post('/ajaxNick', function(req, res){
     var nick = req.body.nick;
     var socketId = req.body.socketId;
     var responseData = {};
@@ -158,7 +160,6 @@ app.post('/ajax', function(req, res){
         }
     }
 });
-
 
 http.listen(port, () => {
 	console.log("8000!");

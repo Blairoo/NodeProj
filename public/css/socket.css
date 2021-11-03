@@ -1,0 +1,127 @@
+#flexdiv {
+    height: 100vh;
+}
+.card {
+    border-radius: 10px;
+}
+.card-body {
+    height: 45vh;
+    overflow: scroll;
+    background-color: rgb(189, 209, 220);
+    padding: 0;
+}
+.card-header{
+    padding: 0 10px;
+    height: 10vh;
+}
+.card-footer{
+    height: 10vh;
+}
+.notice {
+    text-align: center;
+    font-size: x-small;
+    background-color: rgb(179, 198,209);
+}
+dl {
+    margin-bottom: 0;
+}
+dt {
+    margin-left: 5px;
+    font-size: small;
+}
+dd{
+    align-items: flex-end;
+}
+dd.myChat > .msg {
+    position: relative;
+    background-color: white;
+    width: fit-content;
+    margin-right: 5px;
+    font-size: x-small;
+    border-radius: 3px;
+}
+dd.myChat .msg::after{
+    border-top: 5px solid white;
+    border-right: 5px solid transparent;
+    content: "";
+    position: absolute;
+    top: 3px;
+    right: -5px;
+}
+dd > .msg {
+    position: relative;
+    background-color: white;
+    width: fit-content;
+    margin-left: 5px;
+    font-size: x-small;
+    border-radius: 3px;
+}
+dd.everyChat > .msg::after {
+    border-top: 5px solid white;
+    border-left: 5px solid transparent;
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: -5px;
+}
+.dm .msg{
+    /* background-color: cornflowerblue !important; */
+    border: 2px solid hsl(201, 31%, 60%) !important;
+    /* border-color: cornflowerblue !important; */
+}
+.dm.myChat .msg::after{
+    border-top: 5px solid hsl(201, 31%, 60%) !important;
+    border-right: 5px solid transparent;
+    content: "";
+    position: absolute;
+    top: 3px;
+    right: -5px;
+}
+.dm.everyChat .msg::after{
+    border-top: 5px solid hsl(201, 31%, 60%) !important;
+    border-left: 5px solid transparent;
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: -5px;
+}
+a.redbtn:link{
+    text-decoration: none;
+}
+a.redbtn:hover{
+    text-decoration: none;
+    color: rgb(255, 95,87);
+}
+.redbtn {
+    color: rgb(255, 95,87);
+    font-size: 0.8em;
+}
+.yelbtn {
+    color: rgb(254, 188, 46);
+    font-size: 0.8em;
+}
+.grebtn {
+    color: rgb(40, 200, 64);
+    font-size: 0.8em;
+}
+.count, #countlen{
+    font-size: 0.7rem;
+    color: gray;
+}
+.time{
+    font-size: 0.5rem;
+    color: gray;
+    margin-left: 0.5em;
+}
+.profile{
+    background-color: ivory;
+    width: 25px;
+}
+.fa-pen{
+    color: gray;
+    font-size: 0.7rem;
+}
+.dropdown-menu {
+    height: 20vh;
+    overflow-y: scroll;
+}

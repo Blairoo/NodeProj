@@ -1,0 +1,144 @@
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous">
+    </script>
+    <!-- font-awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- 추가 css -->
+    <!-- <link rel="stylesheet" href="/css/socket.css"> -->
+    <style>
+        body {
+            height: 100%;
+        }
+
+        .card {
+            border-radius: 10px;
+            background-color: rgb(230, 230, 230);
+        }
+
+        .card-body {
+            height: 60vh;
+            overflow: scroll;
+            padding: 0;
+            background-color: white;
+            border-bottom-right-radius: 10px !important;
+        }
+
+        .card-header {
+            border-radius: 10px;
+            border-top-left-radius: 0 !important;
+            border-top-right-radius: 10px !important;
+            padding: 10 10px;
+            height: 5vh;
+            background-color: white;
+            border: none;
+        }
+
+        .card-footer {
+            height: 10vh;
+        }
+
+        .list-group-item {
+            border: none;
+        }
+
+        .redbtn {
+            color: rgb(255, 95, 87);
+            font-size: 0.8em;
+        }
+
+        .yelbtn {
+            color: rgb(254, 188, 46);
+            font-size: 0.8em;
+        }
+
+        .grebtn {
+            color: rgb(40, 200, 64);
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-center align-items-center h-100">
+            <div class="col-9 col-md-7">
+                <div class="card">
+                    <div class="row no-gutters">
+                        <div class="col-2 justify-content-around pl-1">
+                            <i class="fas fa-circle redbtn"></i>
+                            <i class="fas fa-circle yelbtn"></i>
+                            <i class="fas fa-circle grebtn"></i>
+                        </div>
+                        <div class="col-10">
+                            <div class="card-header">
+                                <span class="font-weight-bold">채팅</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="list-group">
+                                    <!-- <a href="#" class="list-group-item list-group-item-action">
+                                        <div class="profile"></div> 푸하하
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action">A simple default list
+                                        group
+                                        item</a>
+                                    <a href="#" class="list-group-item list-group-item-action">A simple default list
+                                        group
+                                        item</a> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- sweet alert -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        const socket = io.connect(); // 괄호 안에 주소를 정확히 적기, 외부 ip라면 그 ip주소도 정확히
+        let socketId;
+        let myNick;
+        let roomName;
+        // socket.emit("플래그이름", )
+        socket.emit("joinRoom", {
+            roomName: "defaultRoom"
+        });
+        socket.on('mySocket', (data)=>{
+            socketId = data.id;
+            myNick = data.nick;
+            console.log("내꺼"+socketId+"닉"+myNick);
+        })
+
+        socket.on("update_nicks", (data) => {
+            $(".list-group").empty();
+            for (let i = 0; i < data.nlist.length; i++) {
+                let first = data.nlist[i].charAt(0);
+                if (data.nlist[i] != myNick) {
+                    $(".list-group").append(`
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div>${first}</div>
+                        ${data.nlist[i]}</a>
+                    `);
+                } else {
+                    $(".list-group").prepend(`
+                    <a href="#" class="list-group-item list-group-item-action">${data.nlist[i]}</a>
+                    `);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
