@@ -106,13 +106,13 @@
                         <div class="col-10">
                             <div class="card-header">
                                 <span class="font-weight-bold">채팅</span>
-                                <i class="fas fa-comment-medical" id="madeRoom"></i>
+                                <i class="fas fa-comment-medical" id="madeRoom" onclick="makeRoom();"></i>
                             </div>
                             <div class="card-body">
                                 <div class="list-group" id="roomList">
                                 </div>
                                 <div class="list-group">
-                                    <a href="http://115.85.180.68:8000/chat" class="list-group-item list-group-item-action px-2">
+                                    <a href="http://115.85.180.68:8000/chat/푸하하" class="list-group-item list-group-item-action px-2">
                                         <img src="http://115.85.180.68:8000/images/hachan.jpg" width="45px" height="45x" class="rounded-circle">
                                         <span class="roomName">푸하하</span></a>
                                 </div>
@@ -132,33 +132,21 @@
         let myNick;
         let roomName;
         socket.emit("joinRoom", {
-            roomName: "defaultRoom"
+            roomName: "roomList"
         });
-        socket.on('mySocket', (data)=>{
-            socketId = data.id;
-            myNick = data.nick;
-            console.log("내꺼"+socketId+"닉"+myNick);
-        })
 
-        socket.on("update_nicks", (data) => {
+        socket.on("update_rooms", (data) => {
             $("#roomList").empty();
-            for (let i = 0; i < data.nlist.length; i++) {
-                let first = data.nlist[i].charAt(0);
-                if (data.nlist[i] != myNick) {
-                    $("#roomList").append(`
-                    <a href="http://115.85.180.68:8000/chat/${data.roomName}" class="list-group-item list-group-item-action px-2">
-                        <span class="badge badge-light profile mr-1">${first}</span><span class="roomName">${data.nlist[i]}</span></a>
-                    `);
-                } else {
-                    $("#roomList").prepend(`
-                    <a href="#" class="list-group-item list-group-item-action px-2">
-                        <span class="badge badge-light profile mr-1">${first}</span><span class="roomName">${data.nlist[i]}</span></a>
-                    `);
-                }
+            for (let i = 0; i < data.rlist.length; i++) {
+                let first = data.rlist[i].charAt(0);
+                $("#roomList").append(`
+                <a href="http://115.85.180.68:8000/chat/${data.rlist[i]}" class="list-group-item list-group-item-action px-2">
+                    <span class="badge badge-light profile mr-1">${first}</span><span class="roomName">${data.rlist[i]}</span></a>
+                `);
             }
         });
 
-        function enterRoom(){
+        function makeRoom(){
             Swal.fire({
                 title: 'Enter room name',
                 input: 'text',
@@ -169,7 +157,6 @@
                 confirmButtonText: 'Check',
                 allowOutsideClick: true,
                 backdrop: true,
-                inputPlaceholder: roomName,
             }).then(function(room){
                 if (room.isConfirmed){
                     console.log("ajax시작");
@@ -178,26 +165,19 @@
                         type: "POST",
                         dataType: "JSON",
                         data: {
-                            "room": room.value,
-                            "socketId": socketId
+                            "room": room.value
                         },
                         success: function(data){
                             console.log(data);
                             if (data.result == "success"){
                                 Swal.fire({
-                                    title: `Successfully Change`,
+                                    title: `방이 만들어졌습니다`,
                                     icon:'success',
-                                    confirmButtonText: "OK"
+                                    confirmButtonText: "확인"
                                 });
                             }else if(data.result == "fail"){
                                 Swal.fire({
                                     title: `이미 존재하는 이름입니다`,
-                                    icon: 'warning',
-                                    confirmButtonText: '확인'
-                                });
-                            }else if(data.result == "same"){
-                                Swal.fire({
-                                    title: `변경사항이 없습니다.`,
                                     icon: 'warning',
                                     confirmButtonText: '확인'
                                 });

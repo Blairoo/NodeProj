@@ -30,7 +30,7 @@
                         <div class="row">
                             <img src="http://115.85.180.68:8000/images/hachan.jpg" width="45px" height="45x" class="rounded-circle ml-3 my-2">
                             <div class="m-2" id="infobtns">
-                                <h6 id="roomName">푸하하</h6>
+                                <h6 id="roomName"><%=roomName%></h6>
                                 <div class="dropdown">
                                     <i class="fas fa-pen" style="cursor: pointer;" onclick="nick();"></i>
                                     <i class="fas fa-user-alt count" id="userListBtn"style="cursor: pointer;" data-toggle="dropdown" aria-expanded="false"></i>
@@ -52,7 +52,7 @@
                     </div>
                 </div>
             </div>
-        </div>    
+        </div>
     </div>
     <!-- sweet alert -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -63,8 +63,13 @@
         let myNick;
         let roomName;
         // socket.emit("플래그이름", )
+
+        var url = window.location.pathname;
+        roomName = url.split("/")[2];
+        console.log(roomName);
+
         socket.emit("joinRoom", {
-            roomName: "defaultRoom"
+            roomName: roomName
         });
 
         socket.on('mySocket', (data)=>{
@@ -140,12 +145,14 @@
                     console.log(sendmsg);
                     socket.emit("reqMsg", {
                         who: who,
-                        comment: sendmsg
+                        comment: sendmsg,
+                        roomName: roomName
                     });
                 }
             }else{
                 socket.emit("reqMsg", {
-                    comment: $('#send').val()
+                    comment: $('#send').val(),
+                    roomName: roomName
                 });
             }
             $('#send').val('');
