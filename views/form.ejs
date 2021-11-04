@@ -1,5 +1,12 @@
-<form action="http://49.50.164.62:8000/form" method="post">
-    <input type="test" name="name">
-    <input type="number" name="age">
-    <button type="submit">button</button>
+<form action="http://115.85.180.68:8000/upload" method="post" enctype="multipart/form-data">
+    <h2>Single file</h2>
+    <input type="file" name="userfile">
+    <button type="submit">submit</button>
 </form>
+<form action="http://115.85.180.68:8000/upload-multiple" method="post" enctype="multipart/form-data">
+    <h2>Multiple files</h2>
+    <input type="file" name="userfile" multiple="multiple">
+    <button type="submit">submit</button>
+</form>
+
+<img src="/img/IMG_0915_1636002456347.jpg" alt="">

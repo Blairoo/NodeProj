@@ -38,7 +38,7 @@
             border-radius: 10px;
             border-top-left-radius: 0 !important;
             border-top-right-radius: 10px !important;
-            padding: 10 10px;
+            padding: 10 15px;
             height: 5vh;
             background-color: white;
             border: none;
@@ -51,20 +51,43 @@
         .list-group-item {
             border: none;
         }
-
+        
         .redbtn {
             color: rgb(255, 95, 87);
             font-size: 0.8em;
         }
-
+        
         .yelbtn {
             color: rgb(254, 188, 46);
             font-size: 0.8em;
         }
-
+        
         .grebtn {
             color: rgb(40, 200, 64);
             font-size: 0.8em;
+        }
+        .profile{
+            vertical-align: middle;
+            font-size: large;
+            width: 45px;
+            height: 45px;
+            border-radius: 10rem;
+            border: 1px solid rgb(230, 230, 230);
+            padding-top: 12px;
+        }
+        .roomName{
+            vertical-align: middle;
+        }
+        .list-group a:hover{
+            background-color: rgb(242,242,242);
+        }
+        .list-group {
+            border-radius: 0;
+        }
+        #madeRoom{
+            float: right;
+            cursor: pointer;
+            font-size: large;
         }
     </style>
 </head>
@@ -83,18 +106,15 @@
                         <div class="col-10">
                             <div class="card-header">
                                 <span class="font-weight-bold">채팅</span>
+                                <i class="fas fa-comment-medical" id="madeRoom"></i>
                             </div>
                             <div class="card-body">
+                                <div class="list-group" id="roomList">
+                                </div>
                                 <div class="list-group">
-                                    <!-- <a href="#" class="list-group-item list-group-item-action">
-                                        <div class="profile"></div> 푸하하
-                                    </a>
-                                    <a href="#" class="list-group-item list-group-item-action">A simple default list
-                                        group
-                                        item</a>
-                                    <a href="#" class="list-group-item list-group-item-action">A simple default list
-                                        group
-                                        item</a> -->
+                                    <a href="http://115.85.180.68:8000/chat" class="list-group-item list-group-item-action px-2">
+                                        <img src="http://115.85.180.68:8000/images/hachan.jpg" width="45px" height="45x" class="rounded-circle">
+                                        <span class="roomName">푸하하</span></a>
                                 </div>
                             </div>
                         </div>
@@ -111,7 +131,6 @@
         let socketId;
         let myNick;
         let roomName;
-        // socket.emit("플래그이름", )
         socket.emit("joinRoom", {
             roomName: "defaultRoom"
         });
@@ -122,22 +141,78 @@
         })
 
         socket.on("update_nicks", (data) => {
-            $(".list-group").empty();
+            $("#roomList").empty();
             for (let i = 0; i < data.nlist.length; i++) {
                 let first = data.nlist[i].charAt(0);
                 if (data.nlist[i] != myNick) {
-                    $(".list-group").append(`
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <div>${first}</div>
-                        ${data.nlist[i]}</a>
+                    $("#roomList").append(`
+                    <a href="http://115.85.180.68:8000/chat/${data.roomName}" class="list-group-item list-group-item-action px-2">
+                        <span class="badge badge-light profile mr-1">${first}</span><span class="roomName">${data.nlist[i]}</span></a>
                     `);
                 } else {
-                    $(".list-group").prepend(`
-                    <a href="#" class="list-group-item list-group-item-action">${data.nlist[i]}</a>
+                    $("#roomList").prepend(`
+                    <a href="#" class="list-group-item list-group-item-action px-2">
+                        <span class="badge badge-light profile mr-1">${first}</span><span class="roomName">${data.nlist[i]}</span></a>
                     `);
                 }
             }
         });
+
+        function enterRoom(){
+            Swal.fire({
+                title: 'Enter room name',
+                input: 'text',
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                showCancelButton: true,
+                confirmButtonText: 'Check',
+                allowOutsideClick: true,
+                backdrop: true,
+                inputPlaceholder: roomName,
+            }).then(function(room){
+                if (room.isConfirmed){
+                    console.log("ajax시작");
+                    $.ajax({
+                        url: "/ajaxRoom",
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                            "room": room.value,
+                            "socketId": socketId
+                        },
+                        success: function(data){
+                            console.log(data);
+                            if (data.result == "success"){
+                                Swal.fire({
+                                    title: `Successfully Change`,
+                                    icon:'success',
+                                    confirmButtonText: "OK"
+                                });
+                            }else if(data.result == "fail"){
+                                Swal.fire({
+                                    title: `이미 존재하는 이름입니다`,
+                                    icon: 'warning',
+                                    confirmButtonText: '확인'
+                                });
+                            }else if(data.result == "same"){
+                                Swal.fire({
+                                    title: `변경사항이 없습니다.`,
+                                    icon: 'warning',
+                                    confirmButtonText: '확인'
+                                });
+                            }
+                        }
+                    });
+                }else{
+                    Swal.fire({
+                        title: 'Cancelled',
+                        icon: 'error'
+                    });
+                }
+            });
+        }
+
     </script>
 </body>
 

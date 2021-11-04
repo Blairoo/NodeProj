@@ -24,10 +24,15 @@ app.get("/list",(req,res) => {
     res.render("roomlist");
 });
 
-    app.get("/chat",(req,res) => {
+app.get("/chat",(req,res) => {
     res.render("socket");
 });
-
+// roomName을 parameter로 받아서 params 이름의 방을 만들기
+app.get("/chat/:roomName", getRoomName);
+function getRoomName(req,res){
+	let roomName = req.params.roomName;
+	res.send(roomName);
+}
 var roomName;
 // 참가자 리스트 관리 {소켓아이디: 닉네임}
 let nick_array = [];

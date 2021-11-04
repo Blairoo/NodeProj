@@ -28,13 +28,9 @@
                             <i class="fas fa-circle grebtn"></i>
                         </div>
                         <div class="row">
-                            <img src="http://115.85.180.68:8000/images/hachan.jpg" width="50px" height="50px" class="rounded-circle ml-3 my-1">
+                            <img src="http://115.85.180.68:8000/images/hachan.jpg" width="45px" height="45x" class="rounded-circle ml-3 my-2">
                             <div class="m-2" id="infobtns">
-                                <div class="dropdown">
-                                    <h6 style="cursor: pointer;"id="roomListBtn" data-toggle="dropdown" aria-expanded="false">푸하하</h6>
-                                    <div class="dropdown-menu" id="roomList" aria-labelledby="roomListBtn">
-                                    </div>
-                                </div>
+                                <h6 id="roomName">푸하하</h6>
                                 <div class="dropdown">
                                     <i class="fas fa-pen" style="cursor: pointer;" onclick="nick();"></i>
                                     <i class="fas fa-user-alt count" id="userListBtn"style="cursor: pointer;" data-toggle="dropdown" aria-expanded="false"></i>
@@ -70,71 +66,6 @@
         socket.emit("joinRoom", {
             roomName: "defaultRoom"
         });
-        // $(document).ready(function(){
-        //     enterRoom();
-        // });
-        function enterRoom(){
-            Swal.fire({
-                title: 'Enter room name',
-                input: 'text',
-                inputAttributes: {
-                    autocapitalize: 'off'
-                },
-                showCancelButton: true,
-                confirmButtonText: 'Check',
-                allowOutsideClick: true,
-                backdrop: true,
-                inputPlaceholder: roomName,
-            }).then(function(room){
-                if (room.isConfirmed){
-                    console.log("ajax시작");
-                    $.ajax({
-                        url: "/ajaxRoom",
-                        type: "POST",
-                        dataType: "JSON",
-                        data: {
-                            "room": room.value,
-                            "socketId": socketId
-                        },
-                        success: function(data){
-                            console.log(data);
-                            if (data.result == "success"){
-                                Swal.fire({
-                                    title: `Successfully Change`,
-                                    icon:'success',
-                                    confirmButtonText: "OK"
-                                });
-                            }else if(data.result == "fail"){
-                                Swal.fire({
-                                    title: `이미 존재하는 이름입니다`,
-                                    icon: 'warning',
-                                    confirmButtonText: '확인'
-                                });
-                            }else if(data.result == "same"){
-                                Swal.fire({
-                                    title: `변경사항이 없습니다.`,
-                                    icon: 'warning',
-                                    confirmButtonText: '확인'
-                                });
-                            }
-                        }
-                    });
-                }else{
-                    Swal.fire({
-                        title: 'Cancelled',
-                        icon: 'error'
-                    });
-                }
-            });
-        }
-
-
-
-
-
-
-
-
 
         socket.on('mySocket', (data)=>{
             socketId = data.id;
