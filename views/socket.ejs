@@ -105,20 +105,24 @@
             }
         });
         socket.on('notice', (data) => {
-            console.log(data.count);
-            $("#countlen").html(data.count.length);
+            console.log(data.clients);
+            $("#countlen").html(data.clients.length);
             $("#chatList").append(`<p class="notice">${data.notice}</p>`);
             $(".card-body").scrollTop(function() { return this.scrollHeight; });
         });
         
         socket.on("update_nicks",(data)=>{
             $("#userList").empty();
+            console.log(data);
             for(let i = 0; i < data.nlist.length; i++){
+                console.log(data.nlist[i]);
                 if(data.nlist[i] != myNick){
+                    console.log('notmine');
                     $("#userList").append(`
                     <a class="dropdown-item" onclick="dm(this);">${data.nlist[i]}</a>
                     `);
                 }else{
+                    console.log('mine');
                     $("#userList").prepend(`
                     <h6 class="dropdown-header" >${data.nlist[i]}</h6>
                     `);

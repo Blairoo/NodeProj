@@ -49,24 +49,34 @@ function getRoomName(req,res){
     }
 }
 let nick_array = [];
-function update_list() {
+
+let clients;
+let update_list;
+// function update_list() {
+update_list = function(clients) {
     let nicks = [];
-    for ( let socket in nick_array ){
-        nicks.push(nick_array[socket]);
+    // for ( let socket in nick_array ){
+    //     nicks.push(nick_array[socket]);
+    // }
+    // clients= Array.from(io.sockets.adapter.rooms.get(roomName));
+    console.log(clients);
+    console.log("nicks");
+    for(var i in clients){
+        var client = clients[i];
+        nicks.push(nick_array[client]);
+        console.log(nicks);
     }
     io.emit( "update_nicks", {nlist: nicks});
     console.log(nick_array);
     console.log("닉---"+nicks);
 }
 
-let clients;
-
 io.on("connection", function(socket){
     // socket과 관련한 통신 작업을 모두 처리하는 함수(채팅 보내고 받는 것을 처리하는 것)
     console.log("Socket connected")
     const socketId = socket.id;
     nick_array[socketId] = socketId;
-    update_list();
+    // update_list();
     console.log("룸네임-----"+roomName);
     io.to(socketId).emit("mySocket", {id: socketId, nick: nick_array[socketId]});
     // 보낼 때는 socket.emit
@@ -90,10 +100,10 @@ io.on("connection", function(socket){
         // stringify parse
 
         // console.log(clients.size);
-        update_list();
+        update_list(clients);
         io.in("roomList").emit( "update_rooms", {rlist: room_array});
         // io.emit('notice', {notice: socketId + "님이 들어왔습니다."})
-        io.in(roomName).emit('notice', {notice: socketId + "님이 들어왔습니다.", count: clients});
+        io.in(roomName).emit('notice', {notice: socketId + "님이 들어왔습니다.", clients: clients});
     });
     socket.on('reqMsg', (data) => {
         console.log(data);
@@ -119,7 +129,7 @@ io.on("connection", function(socket){
     socket.on("disconnect", ()=> {
         console.log("disconnect: "+socketId);
         // io.emit('notice', {notice: nick_array[socketId] + "님이 나갔습니다."});
-        io.to(roomName).emit('notice', {notice: nick_array[socketId] + "님이 나갔습니다.", count: clients});
+        io.to(roomName).emit('notice', {notice: nick_array[socketId] + "님이 나갔습니다.", clients: clients});
         delete nick_array[socketId];
         socket.leave(roomName);
         update_list();
@@ -148,7 +158,7 @@ app.post('/ajaxNick', function(req, res){
             responseData.result = "success";
             res.json(responseData);
             // data를 보내고 나서 updatelist 하는 법?
-            update_list();
+            update_list(clients);
         }
     }else{
         if (nick_array[socketId]  == nick){
@@ -185,6 +195,7 @@ app.post('/ajaxRoom', function(req, res){
         res.json(responseData);
     }
 });
+// ajax remove room
 app.post('/ajaxDelList', function (req,res){
     var delRoom = req.body.delRoom;
     var responseData = {};
@@ -199,7 +210,8 @@ app.post('/ajaxDelList', function (req,res){
             break;
         }
     }
-})
+});
+
 http.listen(port, () => {
 	console.log("8000!");
 });
