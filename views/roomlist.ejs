@@ -81,13 +81,26 @@
         .list-group a:hover{
             background-color: rgb(242,242,242);
         }
+        /* .list-group a:hover .delbtn{
+            color: gray;
+        } */
         .list-group {
             border-radius: 0;
         }
-        #madeRoom{
-            float: right;
+        #mkRoom{
             cursor: pointer;
             font-size: large;
+        }
+        #rmRoom{
+            cursor: pointer;
+            font-size: large;
+        }
+        #modBtns{
+            float: right;
+        }
+        .delbtn{
+            float: right;
+            font-size: larger;
         }
     </style>
 </head>
@@ -106,16 +119,21 @@
                         <div class="col-10">
                             <div class="card-header">
                                 <span class="font-weight-bold">채팅</span>
-                                <i class="fas fa-comment-medical" id="madeRoom" onclick="makeRoom();"></i>
+                                <div id="modBtns">
+                                    <i class="fas fa-trash-alt" id="rmRoom" onclick="rmRoom();"></i>
+                                    <i class="fas fa-comment-medical" id="mkRoom" onclick="mkRoom();"></i>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="list-group" id="roomList">
                                 </div>
-                                <div class="list-group">
-                                    <a href="http://115.85.180.68:8000/chat/푸하하" class="list-group-item list-group-item-action px-2">
-                                        <img src="http://115.85.180.68:8000/images/hachan.jpg" width="45px" height="45x" class="rounded-circle">
-                                        <span class="roomName">푸하하</span></a>
-                                </div>
+                                <!-- <div class="list-group">
+                                    <div>
+                                        <a href="http://115.85.180.68:8000/chat/푸하하" class="list-group-item list-group-item-action px-2">
+                                            <img src="http://115.85.180.68:8000/images/hachan.jpg" width="45px" height="45x" class="rounded-circle">
+                                            <span class="roomName">푸하하</span></a>
+                                    </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -125,7 +143,7 @@
     </div>
     <!-- sweet alert -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script src="/js/socket.js"></script>
     <script>
         const socket = io.connect(); // 괄호 안에 주소를 정확히 적기, 외부 ip라면 그 ip주소도 정확히
         let socketId;
@@ -140,13 +158,27 @@
             for (let i = 0; i < data.rlist.length; i++) {
                 let first = data.rlist[i].charAt(0);
                 $("#roomList").append(`
-                <a href="http://115.85.180.68:8000/chat/${data.rlist[i]}" class="list-group-item list-group-item-action px-2">
-                    <span class="badge badge-light profile mr-1">${first}</span><span class="roomName">${data.rlist[i]}</span></a>
+                <div>
+                    <a href="http://115.85.180.68:8000/chat/${data.rlist[i]}" class="list-group-item list-group-item-action px-2" target="blank">
+                        <span class="badge badge-light profile mr-1">${first}</span>
+                        <span class="roomName">${data.rlist[i]}</span>
+                    </a>
+                    <span class="badge badge-light delbtn d-none mr-3" onclick="delList(this);"><i class="fas fa-times"></i></span>
+                </div>
+                `);
+                console.log(i);
+            }
+            if( $("#roomList").html()==""){
+                $("#roomList").append(`
+                <div class="jumbotron">
+                    <h6>채팅방이 없습니다</h6>
+                    <h3>새로 만들어보세요!</h3>
+                </div>
                 `);
             }
         });
 
-        function makeRoom(){
+        function mkRoom(){
             Swal.fire({
                 title: 'Enter room name',
                 input: 'text',
@@ -177,7 +209,7 @@
                                 });
                             }else if(data.result == "fail"){
                                 Swal.fire({
-                                    title: `이미 존재하는 이름입니다`,
+                                    title: `이미 존재하는 방입니다`,
                                     icon: 'warning',
                                     confirmButtonText: '확인'
                                 });
@@ -192,7 +224,37 @@
                 }
             });
         }
-
+        function rmRoom(){
+            if ($(".delBtn").hasClass("d-none")){
+                $(".delBtn").removeClass("d-none");
+            }else{
+                $(".delBtn").addClass("d-none");
+            }
+        }
+        function delList(obj){
+            const del = $(obj).parent("div");
+            const delList = del.find($(".roomName")).html();
+            console.log(delList);
+            $.ajax({
+                url: "/ajaxDelList",
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    "delRoom": delList
+                },
+                success: function(data){
+                    console.log(data);
+                    if (data.result == "success"){
+                        Swal.fire({
+                            title: `삭제되었습니다`,
+                            icon:'success',
+                            confirmButtonText: "확인"
+                        });
+                    }
+                }
+            });
+            del.remove();
+        }
     </script>
 </body>
 

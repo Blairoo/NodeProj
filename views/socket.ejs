@@ -34,6 +34,7 @@
                                 <div class="dropdown">
                                     <i class="fas fa-pen" style="cursor: pointer;" onclick="nick();"></i>
                                     <i class="fas fa-user-alt count" id="userListBtn"style="cursor: pointer;" data-toggle="dropdown" aria-expanded="false"></i>
+                                    <span id="countlen"></span>
                                     <div class="dropdown-menu" id="userList" aria-labelledby="userListBtn">
                                     </div>
                                 </div>
@@ -104,10 +105,10 @@
             }
         });
         socket.on('notice', (data) => {
-            $("#countlen").empty();
+            console.log(data.count);
+            $("#countlen").html(data.count.length);
             $("#chatList").append(`<p class="notice">${data.notice}</p>`);
             $(".card-body").scrollTop(function() { return this.scrollHeight; });
-            $(".count").after(`<span id="countlen" class="ml-1">${data.count}</span>`);
         });
         
         socket.on("update_nicks",(data)=>{

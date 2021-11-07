@@ -40,7 +40,7 @@ function update_rooms(roomName){
 function getRoomName(req,res){
 	roomName = req.params.roomName;
     console.log("파람룸네임"+req.params.roomName);
-    const indexRoom = room_array.findIndex(e => e == roomName);
+    const indexRoom = room_array.findIndex((e) => e === roomName);
     if(indexRoom < 0){
         update_rooms(roomName);
         res.render("socket", {roomName: roomName});
@@ -59,6 +59,8 @@ function update_list() {
     console.log("닉---"+nicks);
 }
 
+let clients;
+
 io.on("connection", function(socket){
     // socket과 관련한 통신 작업을 모두 처리하는 함수(채팅 보내고 받는 것을 처리하는 것)
     console.log("Socket connected")
@@ -69,27 +71,29 @@ io.on("connection", function(socket){
     io.to(socketId).emit("mySocket", {id: socketId, nick: nick_array[socketId]});
     // 보낼 때는 socket.emit
     socket.on("joinRoom", (data) => {
+        // function getRooms(io){
+        //     const arr = Array.from(io.sockets.adapter.rooms);
+        //     const filtered = arr.filter(room => !room[1].has(room[0]));
+        //     const res = filtered.map(i => i[0]);
+        //     console.log(res);
+        //     return res;
+        // }
+        // getRooms(io);
         console.log("조인룸데이터");
         console.log(data);
         socket.join(data.roomName); // 특정 room에 들어가는 것
         roomName = data.roomName;
-        const clients= io.sockets.adapter.rooms.get(roomName);
+        clients= Array.from(io.sockets.adapter.rooms.get(roomName));
         console.log(clients);
-
-
-
-        for (const cl of clients){//clients에는 socketid만 저장됨 -> nick으로 바꿔서 리스트로 저장하고 넘겨서 length랑 채팅방 안에 있는 사람 리스트 뽑기
-            var clist = [];
-            clist.push(cl);
-            console.log(clist);
-        }
-
+        // console.log(JSON.stringify( Array.from(clients)));
+        // let aha=Array.from(clients);
+        // stringify parse
 
         // console.log(clients.size);
         update_list();
-        io.in(roomName).emit( "update_rooms", {rlist: room_array});
+        io.in("roomList").emit( "update_rooms", {rlist: room_array});
         // io.emit('notice', {notice: socketId + "님이 들어왔습니다."})
-        io.in(roomName).emit('notice', {notice: socketId + "님이 들어왔습니다.", count: clients.size})
+        io.in(roomName).emit('notice', {notice: socketId + "님이 들어왔습니다.", count: clients});
     });
     socket.on('reqMsg', (data) => {
         console.log(data);
@@ -114,9 +118,8 @@ io.on("connection", function(socket){
     // 클라이언트 종료하면 자동 disconnect 됨
     socket.on("disconnect", ()=> {
         console.log("disconnect: "+socketId);
-        const clients= io.sockets.adapter.rooms.get(roomName);
         // io.emit('notice', {notice: nick_array[socketId] + "님이 나갔습니다."});
-        io.to(roomName).emit('notice', {notice: nick_array[socketId] + "님이 나갔습니다.", count: clients.size});
+        io.to(roomName).emit('notice', {notice: nick_array[socketId] + "님이 나갔습니다.", count: clients});
         delete nick_array[socketId];
         socket.leave(roomName);
         update_list();
@@ -165,7 +168,8 @@ app.post('/ajaxRoom', function(req, res){
     var responseData = {};
     console.log("저장전");
     // 중복된 room이 없을 때
-    const indexRoom = room_array.findIndex(e => e == roomName);
+    const indexRoom = room_array.findIndex((e) => e === room);
+    console.log(indexRoom);
     if(indexRoom < 0){//중복 X
         update_rooms(room);
         console.log(room + "저장 성공");
@@ -181,7 +185,21 @@ app.post('/ajaxRoom', function(req, res){
         res.json(responseData);
     }
 });
-
+app.post('/ajaxDelList', function (req,res){
+    var delRoom = req.body.delRoom;
+    var responseData = {};
+    const indexRoom = room_array.findIndex((e) => e === delRoom);
+    console.log(indexRoom);
+    for(let i = 0; i < room_array.length; i++){
+        if(room_array[i] === delRoom){
+            room_array.splice(i, 1);
+            console.log(i);
+            responseData.result = "success";
+            res.json(responseData);
+            break;
+        }
+    }
+})
 http.listen(port, () => {
 	console.log("8000!");
 });
