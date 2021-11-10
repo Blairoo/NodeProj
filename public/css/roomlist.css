@@ -1,0 +1,85 @@
+body {
+    height: 100%;
+}
+
+.card {
+    border-radius: 10px;
+    background-color: rgb(230, 230, 230);
+}
+
+.card-body {
+    height: 60vh;
+    overflow: scroll;
+    padding: 0;
+    background-color: white;
+    border-bottom-right-radius: 10px !important;
+}
+
+.card-header {
+    border-radius: 10px;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 10px !important;
+    padding: 10 15px;
+    height: 5vh;
+    background-color: white;
+    border: none;
+}
+
+.card-footer {
+    height: 10vh;
+}
+
+.list-group-item {
+    border: none;
+}
+
+.redbtn {
+    color: rgb(255, 95, 87);
+    font-size: 0.8em;
+}
+
+.yelbtn {
+    color: rgb(254, 188, 46);
+    font-size: 0.8em;
+}
+
+.grebtn {
+    color: rgb(40, 200, 64);
+    font-size: 0.8em;
+}
+.profile{
+    vertical-align: middle;
+    font-size: large;
+    width: 45px;
+    height: 45px;
+    border-radius: 10rem;
+    border: 1px solid rgb(230, 230, 230);
+    padding-top: 12px;
+}
+.roomName{
+    vertical-align: middle;
+}
+.list-group a:hover{
+    background-color: rgb(242,242,242);
+}
+/* .list-group a:hover .delbtn{
+    color: gray;
+} */
+.list-group {
+    border-radius: 0;
+}
+#mkRoom{
+    cursor: pointer;
+    font-size: large;
+}
+#rmRoom{
+    cursor: pointer;
+    font-size: large;
+}
+#modBtns{
+    float: right;
+}
+.delbtn{
+    float: right;
+    font-size: larger;
+}

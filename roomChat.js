@@ -1,10 +1,32 @@
 const express = require('express');
 const app = express();
 const body = require('body-parser');
-const { read } = require('fs');
+const fs = require('fs');
 const Swal = require('sweetalert2');
 app.use( body.urlencoded( { extended:false } ) );
 app.use( body.json() );
+
+const session = require('express-session');
+app.use(session({
+    secret: 'keyboardcat',
+    resave: false,
+    saveUninitialized: true,
+}));
+
+const multer = require('multer'); // express에 multer모듈 적용 (for 파일업로드)
+const path = require("path");
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "uploads/");
+    },
+    filename: function (req, file, cb) {
+        const ext = path.extname(file.originalname);
+        cb(null, path.basename(file.originalname, ext) + "_" + Date.now() + ext);
+    }
+});
+const upload = multer({ storage: storage });
+app.use('/upload', express.static(__dirname + '/uploads'));
 
 const port = 8000;
 const http = require("http").Server(app);
@@ -172,6 +194,31 @@ app.post('/ajaxNick', function(req, res){
         }
     }
 });
+// upload pic
+app.post('/ajaxPic',upload.single('pic'), function(req, res){
+    console.log(req.file);
+    console.log(req.session);
+    var responseData = {};
+    if (req.session.prof){
+        console.log("두번째바꿈")
+        fs.unlink(`./uploads/${req.file.filename}`, function (err) {
+            if (err) throw err;
+            console.log("file deleted!");
+        });
+        req.session.prof = req.file.filename;
+        console.log(req.session);
+        responseData.session = req.session.prof;
+        responseData.result = "success";
+        res.json(responseData);
+    }else {
+        console.log("처음바꿈");
+        req.session.prof = req.file.filename;
+        console.log(req.session);
+        responseData.session = req.session.prof;
+        responseData.result = "success";
+        res.json(responseData);
+    }
+});
 // ajax room 중복 검사
 app.post('/ajaxRoom', function(req, res){
     var room = req.body.room;
@@ -204,6 +251,7 @@ app.post('/ajaxDelList', function (req,res){
     for(let i = 0; i < room_array.length; i++){
         if(room_array[i] === delRoom){
             room_array.splice(i, 1);
+            io.emit( "update_rooms", {rlist: room_array});
             console.log(i);
             responseData.result = "success";
             res.json(responseData);

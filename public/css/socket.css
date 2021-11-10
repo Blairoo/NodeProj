@@ -113,10 +113,39 @@ a.redbtn:hover{
     color: gray;
     margin-left: 0.5em;
 }
-.profile{
-    background-color: ivory;
-    width: 25px;
+span.profile{
+    vertical-align: middle;
+    font-size: large;
+    width: 35px;
+    height: 35px;
+    border-radius: 10rem;
+    border: 1px solid rgb(230, 230, 230);
+    float: left;
+    padding: 8px;
+    margin-left: 5px;
 }
+img.profile{
+    vertical-align: middle;
+    font-size: large;
+    width: 35px;
+    height: 35px;
+    border-radius: 10rem;
+    border: 1px solid rgb(230, 230, 230);
+    float: left;
+    margin-left: 5px;
+}
+.roomProfile{
+    vertical-align: middle;
+    font-size: large;
+    width: 45px;
+    height: 45px;
+    border-radius: 10rem;
+    border: 1px solid rgb(230, 230, 230);
+    padding: 12px;
+    margin-left: 15px;
+    margin-top: 5px;
+}
+
 .fa-pen{
     color: gray;
     font-size: 0.7rem;

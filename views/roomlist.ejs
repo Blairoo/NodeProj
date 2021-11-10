@@ -15,94 +15,7 @@
         integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- 추가 css -->
-    <!-- <link rel="stylesheet" href="/css/socket.css"> -->
-    <style>
-        body {
-            height: 100%;
-        }
-
-        .card {
-            border-radius: 10px;
-            background-color: rgb(230, 230, 230);
-        }
-
-        .card-body {
-            height: 60vh;
-            overflow: scroll;
-            padding: 0;
-            background-color: white;
-            border-bottom-right-radius: 10px !important;
-        }
-
-        .card-header {
-            border-radius: 10px;
-            border-top-left-radius: 0 !important;
-            border-top-right-radius: 10px !important;
-            padding: 10 15px;
-            height: 5vh;
-            background-color: white;
-            border: none;
-        }
-
-        .card-footer {
-            height: 10vh;
-        }
-
-        .list-group-item {
-            border: none;
-        }
-        
-        .redbtn {
-            color: rgb(255, 95, 87);
-            font-size: 0.8em;
-        }
-        
-        .yelbtn {
-            color: rgb(254, 188, 46);
-            font-size: 0.8em;
-        }
-        
-        .grebtn {
-            color: rgb(40, 200, 64);
-            font-size: 0.8em;
-        }
-        .profile{
-            vertical-align: middle;
-            font-size: large;
-            width: 45px;
-            height: 45px;
-            border-radius: 10rem;
-            border: 1px solid rgb(230, 230, 230);
-            padding-top: 12px;
-        }
-        .roomName{
-            vertical-align: middle;
-        }
-        .list-group a:hover{
-            background-color: rgb(242,242,242);
-        }
-        /* .list-group a:hover .delbtn{
-            color: gray;
-        } */
-        .list-group {
-            border-radius: 0;
-        }
-        #mkRoom{
-            cursor: pointer;
-            font-size: large;
-        }
-        #rmRoom{
-            cursor: pointer;
-            font-size: large;
-        }
-        #modBtns{
-            float: right;
-        }
-        .delbtn{
-            float: right;
-            font-size: larger;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/roomlist.css">
 </head>
 
 <body>
@@ -127,13 +40,6 @@
                             <div class="card-body">
                                 <div class="list-group" id="roomList">
                                 </div>
-                                <!-- <div class="list-group">
-                                    <div>
-                                        <a href="http://115.85.180.68:8000/chat/푸하하" class="list-group-item list-group-item-action px-2">
-                                            <img src="http://115.85.180.68:8000/images/hachan.jpg" width="45px" height="45x" class="rounded-circle">
-                                            <span class="roomName">푸하하</span></a>
-                                    </div>
-                                </div> -->
                             </div>
                         </div>
                     </div>
