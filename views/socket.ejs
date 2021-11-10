@@ -64,6 +64,7 @@
         let socketId;
         let myNick;
         let roomName;
+        let session;
         // socket.emit("플래그이름", )
 
         var url = window.location.pathname;
@@ -83,6 +84,7 @@
         })
         socket.on('recMsg', (data) => {
             let first = data.nick.charAt(0);
+            console.log(data);
             if(data.dm == true){
                 if(data.id == socketId){
                     console.log("내가보내는 dm")
@@ -90,14 +92,17 @@
                     $(".card-body").scrollTop(function() { return this.scrollHeight; });
                 }else{
                     console.log("받는 dm")
-                    // default profile
-                    $('#chatList').append(`<span class ="badge badge-light profile mr-1">${first}</span><dt class="m-1">${data.nick}</dt>
-                    <dd class="m-1 mb-2 d-flex align-self-baseline everyChat dm"><span class="msg p-2">${data.msg}</span><span class="time">${data.time}</span></dd>`);
-                    $(".card-body").scrollTop(function() { return this.scrollHeight; });
-                    // profile update
-                    // $('#chatList').append(`<img src="http://115.85.180.68:8000/images/hachan.jpg" class="profile rounded-circle"><dt class="m-1">${data.nick}</dt>
-                    // <dd class="m-1 mb-2 d-flex align-self-baseline everyChat dm"><span class="msg p-2">${data.msg}</span><span class="time">${data.time}</span></dd>`);
-                    // $(".card-body").scrollTop(function() { return this.scrollHeight; });
+                    if(!data.session){
+                        // default profile
+                        $('#chatList').append(`<span class ="badge badge-light profile mr-1">${first}</span><dt class="m-1">${data.nick}</dt>
+                        <dd class="m-1 mb-2 d-flex align-self-baseline everyChat dm"><span class="msg p-2">${data.msg}</span><span class="time">${data.time}</span></dd>`);
+                        $(".card-body").scrollTop(function() { return this.scrollHeight; });
+                    }else{
+                        // profile update
+                        $('#chatList').append(`<img src="http://115.85.180.68:8000/uploads/${data.session}" class="profile rounded-circle"><dt class="m-1">${data.nick}</dt>
+                        <dd class="m-1 mb-2 d-flex align-self-baseline everyChat dm"><span class="msg p-2">${data.msg}</span><span class="time">${data.time}</span></dd>`);
+                        $(".card-body").scrollTop(function() { return this.scrollHeight; });
+                    }
                 }
             }else{
                 if(data.id == socketId){
@@ -106,14 +111,17 @@
                     $(".card-body").scrollTop(function() { return this.scrollHeight; });
                 }else{
                     console.log("받는 전메")
-                    // default profile
-                    $('#chatList').append(`<span class ="badge badge-light profile mr-1">${first}</span><dt class="m-1">${data.nick}</dt>
-                    <dd class="m-1 mb-2 d-flex align-self-baseline everyChat"><span class="msg p-2">${data.msg}</span><span class="time">${data.time}</span></dd>`);
-                    $(".card-body").scrollTop(function() { return this.scrollHeight; });
-                    // profile update
-                    // $('#chatList').append(`<img src="http://115.85.180.68:8000/images/hachan.jpg" class="profile rounded-circle"><dt class="m-1">${data.nick}</dt>
-                    // <dd class="m-1 mb-2 d-flex align-self-baseline everyChat"><span class="msg p-2">${data.msg}</span><span class="time">${data.time}</span></dd>`);
-                    // $(".card-body").scrollTop(function() { return this.scrollHeight; });
+                    if(!data.session){
+                        // default profile
+                        $('#chatList').append(`<span class ="badge badge-light profile mr-1">${first}</span><dt class="m-1">${data.nick}</dt>
+                        <dd class="m-1 mb-2 d-flex align-self-baseline everyChat"><span class="msg p-2">${data.msg}</span><span class="time">${data.time}</span></dd>`);
+                        $(".card-body").scrollTop(function() { return this.scrollHeight; });
+                    }else{
+                        // profile update
+                        $('#chatList').append(`<img src="http://115.85.180.68:8000/uploads/${data.session}" class="profile rounded-circle"><dt class="m-1">${data.nick}</dt>
+                        <dd class="m-1 mb-2 d-flex align-self-baseline everyChat"><span class="msg p-2">${data.msg}</span><span class="time">${data.time}</span></dd>`);
+                        $(".card-body").scrollTop(function() { return this.scrollHeight; });
+                    }
                 }
             }
         });
@@ -164,13 +172,15 @@
                     socket.emit("reqMsg", {
                         who: who,
                         comment: sendmsg,
-                        roomName: roomName
+                        roomName: roomName,
+                        session: session
                     });
                 }
             }else{
                 socket.emit("reqMsg", {
                     comment: $('#send').val(),
-                    roomName: roomName
+                    roomName: roomName,
+                    session: session
                 });
             }
             $('#send').val('');
@@ -290,6 +300,7 @@
                                     console.log(data.session);
                                     console.log(data.result);
                                     if (data.result == "success"){
+                                        session = data.session;
                                         Swal.fire({
                                             title: `Successfully Uploaded`,
                                             icon:'success',

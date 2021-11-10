@@ -26,7 +26,7 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage: storage });
-app.use('/upload', express.static(__dirname + '/uploads'));
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 const port = 8000;
 const http = require("http").Server(app);
@@ -138,13 +138,13 @@ io.on("connection", function(socket){
                     break;
                 }
             }
-            io.sockets.to(dmid).emit('recMsg', {id: socketId, nick: nick_array[socketId], msg: data.comment, time: moment().format("HH:mm A"), dm: true});
-            io.sockets.to(socketId).emit('recMsg', {id: socketId, nick: nick_array[socketId], msg: data.comment, time: moment().format("HH:mm A"), dm: true});
+            io.sockets.to(dmid).emit('recMsg', {id: socketId, nick: nick_array[socketId], msg: data.comment, time: moment().format("HH:mm A"), dm: true, session: data.session});
+            io.sockets.to(socketId).emit('recMsg', {id: socketId, nick: nick_array[socketId], msg: data.comment, time: moment().format("HH:mm A"), dm: true, session: data.session});
         // 전체
         }else{
             console.log("전체메세지");
-            console.log(data.roomName);
-            io.sockets.in(data.roomName).emit('recMsg', {id: socketId, nick: nick_array[socketId], msg: data.comment, time: moment().format("HH:mm A")});
+            console.log(data.session);
+            io.sockets.in(data.roomName).emit('recMsg', {id: socketId, nick: nick_array[socketId], msg: data.comment, time: moment().format("HH:mm A"), session: data.session});
         }
     });
     // 클라이언트 종료하면 자동 disconnect 됨
@@ -201,7 +201,7 @@ app.post('/ajaxPic',upload.single('pic'), function(req, res){
     var responseData = {};
     if (req.session.prof){
         console.log("두번째바꿈")
-        fs.unlink(`./uploads/${req.file.filename}`, function (err) {
+        fs.unlink(`./uploads/${req.session.prof}`, function (err) {
             if (err) throw err;
             console.log("file deleted!");
         });
