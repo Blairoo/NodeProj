@@ -164,7 +164,6 @@ app.post('/ajaxNick', function(req, res){
     var responseData = {};
     console.log("저장전");
     console.log("소켓아이디"+socketId);
-    console.log(nick_array[socketId]);
     console.log(nick_array);
     // 중복된 닉네임이 없을 때
     if (Object.values(nick_array).indexOf(nick) < 0){
