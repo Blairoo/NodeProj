@@ -23,12 +23,12 @@
                 <div class="card">
                     <div class="card-header">
                         <div>
-                            <a class="fas fa-circle redbtn" href="http://115.85.180.68:8000/list" title="RoomList"></a>
+                            <a class="fas fa-circle redbtn" href="http://3.38.152.216:8000/list" title="RoomList"></a>
                             <i class="fas fa-circle yelbtn"></i>
                             <i class="fas fa-circle grebtn"></i>
                         </div>
                         <div class="row">
-                            <!-- <img src="http://115.85.180.68:8000/images/hachan.jpg" width="45px" height="45x" class="rounded-circle ml-3 my-2"> -->
+                            <!-- <img src="http://3.38.152.216:8000/images/hachan.jpg" width="45px" height="45x" class="rounded-circle ml-3 my-2"> -->
                             <span class="badge badge-light roomProfile mr-1"></span>
                             <div class="m-2" id="infobtns">
                                 <h6 id="roomName"><%=roomName%></h6>
@@ -99,7 +99,7 @@
                         $(".card-body").scrollTop(function() { return this.scrollHeight; });
                     }else{
                         // profile update
-                        $('#chatList').append(`<img src="http://115.85.180.68:8000/uploads/${data.session}" class="profile rounded-circle"><dt class="m-1">${data.nick}</dt>
+                        $('#chatList').append(`<img src="http://3.38.152.216:8000/uploads/${data.session}" class="profile rounded-circle"><dt class="m-1">${data.nick}</dt>
                         <dd class="m-1 mb-2 d-flex align-self-baseline everyChat dm"><span class="msg p-2">${data.msg}</span><span class="time">${data.time}</span></dd>`);
                         $(".card-body").scrollTop(function() { return this.scrollHeight; });
                     }
@@ -118,7 +118,7 @@
                         $(".card-body").scrollTop(function() { return this.scrollHeight; });
                     }else{
                         // profile update
-                        $('#chatList').append(`<img src="http://115.85.180.68:8000/uploads/${data.session}" class="profile rounded-circle"><dt class="m-1">${data.nick}</dt>
+                        $('#chatList').append(`<img src="http://3.38.152.216:8000/uploads/${data.session}" class="profile rounded-circle"><dt class="m-1">${data.nick}</dt>
                         <dd class="m-1 mb-2 d-flex align-self-baseline everyChat"><span class="msg p-2">${data.msg}</span><span class="time">${data.time}</span></dd>`);
                         $(".card-body").scrollTop(function() { return this.scrollHeight; });
                     }
